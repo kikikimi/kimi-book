@@ -1,0 +1,27 @@
+Model, Ford Focus Wagon ZTW
+Model Price, 15999
+OptionSets, 5
+OptionSet, Color, 10 
+Option, Fort Knox Gold Clearcoat Metallic, 0
+Option, Liquid Grey Clearcoat Metallic, 0
+Option, Infra-Red Clearcoat, 0
+Option, Grabber Green Clearcoat Metallic, 0
+Option, Sangria Red Clearcoat Metallic, 0
+Option, French Blue Clearcoat Metallic, 0
+Option, Twilight Blue Clearcoat Metallic, 0
+Option, CD Silver Clearcoat Metallic, 0
+Option, Pitch Black Clearcoat, 0
+Option, Cloud 9 White Clearcoat, 0
+OptionSet, Transmission, 2
+Option, Automatic, 0
+Option, Standard, -815
+OptionSet, Brakes/Traction Control, 3 
+Option, Standard, 0
+Option, ABS, 400
+Option, ABS with Advance Trac, 1625
+OptionSet, Side Impact Air Bags, 2
+Option, None, 0
+Option, Select, 350
+OptionSet, Power Moonroof, 2
+Option, None, 0
+Option, Select, 595 
