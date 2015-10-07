@@ -5,19 +5,24 @@ package util;
 
 import java.io.*;
 import automobile.*;
+import exception.*;
 
 public class FileIO {
 	
 	private static final int DEFAULT_GROUP_SZ = 20;//in case an array size is not specified.
-	
+
 	public FileIO() {}
 	
-	public Model buildAutoModelObject(String fileName, Model automodel) {
+	public Model buildAutoModelObject(String fileName, Model automodel) throws AutoException {
 		boolean endFile = false;
-		String line;
+		String line = "";
 		File fileCheck = new File (fileName);
 		System.out.println("Trying to load " + fileCheck.getAbsolutePath());
-		try{
+		if (!fileCheck.exists()) {
+			throw new AutoException (10404, fileCheck.getAbsolutePath());
+		}
+		
+		try {
 			FileReader fReader = new FileReader(fileName);
 			BufferedReader bReader = new BufferedReader(fReader);
 			
@@ -26,13 +31,20 @@ public class FileIO {
 				line = bReader.readLine();
 				if (line == null) 
 					endFile = true;
-				else this.parseLine(automodel, line);
+				else 
+					try {
+						parseLine(automodel, line);
+					}
+					catch (AutoException ae) {
+						line = ae.fixError();
+						this.parseLine(automodel, line);
+					}
 			}
 			bReader.close();
 			fReader.close();
 			return automodel;
 		}
-		catch(Exception e){
+		catch(Exception e) {
 			System.out.println("Error reading model file: " + e.getMessage());
 			return null;
 		}
@@ -52,7 +64,7 @@ public class FileIO {
 	//default deserialize to "automodel.ser"
 	public Model deserializeAutoModelObject(Model automodel) {return deserializeAutoModelObject("automodel.ser", automodel);}
 	
-	public void parseLine(Model automodel, String line) {
+	public void parseLine(Model automodel, String line) throws AutoException {
 		String [] splitLine = line.split(",");
 		trimWhiteSpaceInArray(splitLine);
 
@@ -75,6 +87,10 @@ public class FileIO {
 				}
 			}
 			else if (splitLine[0].compareToIgnoreCase("optionset") == 0) {
+				
+				if (splitLine.length < 3){
+					throw new AutoException (10206, line);
+				}
 				try {
 					automodel.addOptionSet(splitLine[1], Integer.parseInt(splitLine[2]));
 				}

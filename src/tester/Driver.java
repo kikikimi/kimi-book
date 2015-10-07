@@ -24,7 +24,13 @@ public class Driver {
 	}
 	//Let's build a Model instance!
 	private static Model makeCarModel (FileIO modelMaker, Model car){
-		return modelMaker.buildAutoModelObject("automobile.txt", car);
+		try {
+			return modelMaker.buildAutoModelObject("automobile.txt", car);
+		}
+		catch (Exception e) {
+			//not going to worry about that for lab1.
+			return null;
+		}
 	}
 	//test an add method
 	private static void addColorToModel (Model car){
