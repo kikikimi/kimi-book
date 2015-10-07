@@ -4,5 +4,5 @@
 package adapter;
 
 public class ModelBuilder extends ProxyAuto 
-implements CanCreateModel, CanUpdateModel {
+implements CanCreateModel, CanUpdateModel, CanFixModel {
 }

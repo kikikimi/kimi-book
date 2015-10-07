@@ -12,6 +12,8 @@ public abstract class ProxyAuto {
 	public void buildAuto(String fileName) { 
 		autoModel = (new FileIO()).buildAutoModelObject(fileName, autoModel);
 	}
+	public void fixModel() {/*we'll put user-interaction or pre-determined business rule action in here later*/}
+	
 	//prints to console based on if the model name is found
 	public void printAuto(String modelName) {
 		if (compareNames (autoModel.getModelName(), modelName))
