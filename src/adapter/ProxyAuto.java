@@ -9,17 +9,17 @@ import util.*;
 import exception.*;
 
 public abstract class ProxyAuto {
-	private static Model autoModel;
+	private static Model _autoModel;
 	
 	public void buildAuto(String fileName) { 
 		FileIO builder = new FileIO ();
 			try {
-				autoModel = builder.buildAutoModelObject(fileName, autoModel);
+				_autoModel = builder.buildAutoModelObject(fileName, _autoModel);
 			}
 			catch (AutoException ae){
 				System.out.print (ae.getErrMessage());
 				try {
-					autoModel = builder.buildAutoModelObject(ae.fixError(),  autoModel);
+					_autoModel = builder.buildAutoModelObject(ae.fixError(),  _autoModel);
 				}
 				catch (AutoException e){
 					System.out.print ("Could not resolve error " + ae.getErrMessage());
@@ -33,17 +33,17 @@ public abstract class ProxyAuto {
 	
 	//prints to console based on if the model name is found
 	public void printAuto(String modelName) {
-		if (compareNames (autoModel.getModelName(), modelName))
-			System.out.print(autoModel.toString());
+		if (compareNames (_autoModel.getModelName(), modelName))
+			System.out.print(_autoModel.toString());
 		else System.out.print("Model name" + modelName + "not found");
 	}
 	public void updateOptionSetName(String modelName, String optionSetName, String newName) { 
 		int setIndex;
 		
-		if (compareNames (autoModel.getModelName(), modelName)) {
-			setIndex = autoModel.findOptionSetIndex(optionSetName);
+		if (compareNames (_autoModel.getModelName(), modelName)) {
+			setIndex = _autoModel.findOptionSetIndex(optionSetName);
 			if (setIndex != -1) {
-				autoModel.updateOptionSetName (setIndex, newName);
+				_autoModel.updateOptionSetName (setIndex, newName);
 			}
 		}
 	}
@@ -51,19 +51,19 @@ public abstract class ProxyAuto {
 	public void updateOptionPrice(String modelName, String optionName, String optVal, float newprice) {
 		int setIndex;
 		
-		if (compareNames (autoModel.getModelName(), modelName)) {
-			setIndex = autoModel.findOptionSetIndex(optionName);
+		if (compareNames (_autoModel.getModelName(), modelName)) {
+			setIndex = _autoModel.findOptionSetIndex(optionName);
 			if (setIndex != -1) {
-				autoModel.updateOptionPrice (setIndex, optVal, newprice);
+				_autoModel.updateOptionPrice (setIndex, optVal, newprice);
 			}
 		}
 	}
 	public void updateOptionValue(String modelName, String optionName, String oldOptVal, String newOptVal){
 		int setIndex;
-		if (compareNames (autoModel.getModelName(), modelName)) {
-			setIndex = autoModel.findOptionSetIndex(optionName);
+		if (compareNames (_autoModel.getModelName(), modelName)) {
+			setIndex = _autoModel.findOptionSetIndex(optionName);
 			if (setIndex != -1) {
-				autoModel.updateOptionName(setIndex, oldOptVal, newOptVal);
+				_autoModel.updateOptionName(setIndex, oldOptVal, newOptVal);
 			}
 		}
 	}
