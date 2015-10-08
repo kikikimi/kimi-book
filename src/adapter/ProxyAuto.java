@@ -37,16 +37,6 @@ public abstract class ProxyAuto {
 			System.out.print(_autoModel.toString());
 		else System.out.print("Model name" + modelName + "not found");
 	}
-	public void updateOptionSetName(String modelName, String optionSetName, String newName) { 
-		int setIndex;
-		
-		if (compareNames (_autoModel.getModelName(), modelName)) {
-			setIndex = _autoModel.findOptionSetIndex(optionSetName);
-			if (setIndex != -1) {
-				_autoModel.updateOptionSetName (setIndex, newName);
-			}
-		}
-	}
 	//optionName goes with optionset, optVal is the String property in an option.
 	public void updateOptionPrice(String modelName, String optionName, String optVal, float newprice) {
 		int setIndex;
@@ -58,6 +48,17 @@ public abstract class ProxyAuto {
 			}
 		}
 	}
+	public void updateOptionSetName(String modelName, String optionSetName, String newName) { 
+		int setIndex;
+		
+		if (compareNames (_autoModel.getModelName(), modelName)) {
+			setIndex = _autoModel.findOptionSetIndex(optionSetName);
+			if (setIndex != -1) {
+				_autoModel.updateOptionSetName (setIndex, newName);
+			}
+		}
+	}
+	//optionName goes with optionset, optVal is the String property in an option.
 	public void updateOptionValue(String modelName, String optionName, String oldOptVal, String newOptVal){
 		int setIndex;
 		if (compareNames (_autoModel.getModelName(), modelName)) {

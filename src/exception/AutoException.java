@@ -3,7 +3,7 @@ package exception;
 public class AutoException extends Exception{
 	static final long serialVersionUID = 1158L;
 	
-	private String _info = ""; //meant to be the tried file name for file not found.
+	private String _info = ""; //a string that can be fixed to correct the error (line from parsing a file, file name)
 	private String _errmess = "";
 	private int _errcode = 0;
 	
