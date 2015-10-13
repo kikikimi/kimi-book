@@ -14,6 +14,9 @@ public abstract class ProxyAuto {
 	public void buildAuto(String fileName) { 
 		FileIO builder = new FileIO ();
 			try {
+				if (_autoModel == null){	
+					_autoModel = new Model ();
+				}
 				_autoModel = builder.buildAutoModelObject(fileName, _autoModel);
 			}
 			catch (AutoException ae){
@@ -24,9 +27,6 @@ public abstract class ProxyAuto {
 				catch (AutoException e){
 					System.out.print ("Could not resolve error " + ae.getErrMessage());
 				}
-			}
-			finally {
-				
 			}
 	}
 	public void fixModel() {/*we'll put user-interaction or pre-determined business rule action in here later*/}
@@ -68,6 +68,12 @@ public abstract class ProxyAuto {
 			}
 		}
 	}
+	public void deleteAuto (String modelName) {
+		if (compareNames (_autoModel.getModelName(), modelName)) {
+			_autoModel = null;
+		}
+	}
+	
 	//helper. This may be modified in the future to become findModel ().
 	private static boolean compareNames (String existingName, String queryName)
 	{

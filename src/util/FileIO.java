@@ -4,13 +4,13 @@
 package util;
 
 import java.io.*;
+
 import automobile.*;
 import exception.*;
 
-public class FileIO {
-	
-	private static final int DEFAULT_GROUP_SZ = 20;//in case an array size is not specified.
+import java.util.*;
 
+public class FileIO {
 	public FileIO() {}
 	
 	public Model buildAutoModelObject(String fileName, Model automodel) throws AutoException {
@@ -68,10 +68,13 @@ public class FileIO {
 		String [] splitLine = line.split(",");
 		trimWhiteSpaceInArray(splitLine);
 
-		try {
-			
 			if (splitLine[0].compareToIgnoreCase("model") == 0) {
+				try {
 				automodel.setModelName(splitLine[1]);
+				}
+				catch (IndexOutOfBoundsException ie) {
+					throw new AutoException (102063, line);
+				}
 			}
 			else if (splitLine[0].compareToIgnoreCase("model price") == 0) {
 				automodel.setModelPrice(Double.parseDouble(splitLine[1]));
@@ -81,31 +84,32 @@ public class FileIO {
 				try {
 					automodel.initOptionSets(Integer.parseInt(splitLine[1]));
 				}
-				catch (Exception e) { //number not there or not an integer
-					automodel.initOptionSets(DEFAULT_GROUP_SZ);
-					System.out.println("Error with count of Option sets" + e.getMessage());
+				catch (NumberFormatException ne) { //number not there or not an integer
+					throw new AutoException (102062, line);
 				}
 			}
 			else if (splitLine[0].compareToIgnoreCase("optionset") == 0) {
-				
-				if (splitLine.length < 3){
+				if (splitLine.length < 3){	//missing something in the optionset line
 					throw new AutoException (10206, line);
 				}
 				try {
 					automodel.addOptionSet(splitLine[1], Integer.parseInt(splitLine[2]));
 				}
-				catch (Exception e) { //number not there or not an integer
-					automodel.addOptionSet(splitLine[1], DEFAULT_GROUP_SZ);
-					System.out.println("Error with count of options" + e.getMessage());
+				catch (NumberFormatException ne) { //number not there or not an integer
+					throw new AutoException (102061, line);
 				}
 			}
 			else if (splitLine[0].compareToIgnoreCase("option") == 0){
-				automodel.addOptionToLastSet(splitLine[1], Double.parseDouble(splitLine[2]));
+				if (splitLine.length < 3){	//missing something in the option line
+					throw new AutoException (10206, line);
+				}
+				try {
+					automodel.addOptionToLastSet(splitLine[1], Double.parseDouble(splitLine[2]));
+				}
+				catch (NumberFormatException ne) {
+					throw new AutoException (102061, line);
+				}
 			}
-		}
-		catch (Exception e) {
-			System.out.println ("Error parsing Model file." + e.getMessage());
-		}
 	}
 	public boolean serializeAutoObject(String fileName, Model automodel) {
 		try{
@@ -123,5 +127,23 @@ public class FileIO {
 		for (int i = 0; i < line.length; i++){
 			line [i] = line[i].trim();
 		}
+	}
+	private int getNumberFromConsole(String query){
+		Scanner in = new Scanner (System.in);
+		boolean goodInput = false;
+		String enteredVal = "";
+		
+		while (!goodInput) {
+			System.out.print (query);
+			enteredVal = in.nextLine();
+			if (enteredVal.matches("/d+")) {
+				goodInput = true;
+			}
+			else {
+				System.out.println ("Please enter only a number.");
+			}
+		}
+		in.close();
+		return Integer.parseInt(enteredVal);
 	}
 }

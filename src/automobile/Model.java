@@ -40,6 +40,8 @@ public class Model implements Serializable{
 	
 	public OptionSet getOptionSet(int index) {return this._optset[index];}
 	
+	public int getOptionSetSize () {return this._optset.length;}
+	
 	public OptionSet getOptionSet (String setName) {
 		int setIndex = findOptionSetIndex(setName);
 		if (setIndex > -1) {
