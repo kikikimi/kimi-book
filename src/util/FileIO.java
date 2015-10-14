@@ -73,7 +73,7 @@ public class FileIO {
 				automodel.setModelName(splitLine[1]);
 				}
 				catch (IndexOutOfBoundsException ie) {
-					throw new AutoException (102063, line);
+					throw new AutoException (102064, line);
 				}
 			}
 			else if (splitLine[0].compareToIgnoreCase("model price") == 0) {
@@ -84,19 +84,22 @@ public class FileIO {
 				try {
 					automodel.initOptionSets(Integer.parseInt(splitLine[1]));
 				}
-				catch (NumberFormatException ne) { //number not there or not an integer
-					throw new AutoException (102062, line);
+				catch (NumberFormatException ne) { //number not an integer
+					throw new AutoException (102063, line);
+				}
+				catch (IndexOutOfBoundsException ie) {	//number not there
+					throw new AutoException(102063, line);
 				}
 			}
 			else if (splitLine[0].compareToIgnoreCase("optionset") == 0) {
 				if (splitLine.length < 3){	//missing something in the optionset line
-					throw new AutoException (10206, line);
+					throw new AutoException (102061, line);
 				}
 				try {
 					automodel.addOptionSet(splitLine[1], Integer.parseInt(splitLine[2]));
 				}
 				catch (NumberFormatException ne) { //number not there or not an integer
-					throw new AutoException (102061, line);
+					throw new AutoException (102062, line);
 				}
 			}
 			else if (splitLine[0].compareToIgnoreCase("option") == 0){
@@ -107,7 +110,7 @@ public class FileIO {
 					automodel.addOptionToLastSet(splitLine[1], Double.parseDouble(splitLine[2]));
 				}
 				catch (NumberFormatException ne) {
-					throw new AutoException (102061, line);
+					throw new AutoException (102062, line);
 				}
 			}
 	}

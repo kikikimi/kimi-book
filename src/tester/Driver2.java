@@ -30,6 +30,7 @@ public class Driver2 {
 		car1.buildAuto("anautomobile.txt");
 		car1.deleteAuto("Ford Focus Wagon ZTW");
 		car1.buildAuto("broken_automobile.txt");
+		car1.printAuto("Ford Focus Wagon ZTW");
 		
 	}
 

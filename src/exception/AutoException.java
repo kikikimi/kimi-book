@@ -25,19 +25,19 @@ public class AutoException extends Exception{
 		StringBuilder message = new StringBuilder ();
 		switch (_errcode) {
 		
-			case 10404 :	message.append("Could not find file ");
-							message.append(_info);
-							message.append(".");
-							_errmess = message.toString();
+			case 10404 :	message.append("Could not find file ");		
 			break;
 			case 10206 :	message.append("Line element missing. Line: ");
-							message.append(_info);	
-							_errmess = message.toString();
 			break;
 			case 102061 : 	message.append("Number expected. Line: ");
-							message.append(_info);
-							_errmess = message.toString();
+			break;
+			case 102062 : 	message.append("Number not present or is not an integer. Line: ");	
+			break;
+			case 102063 :	message.append("Model name not found. Line: ");
 		}
+		message.append(_info);
+		message.append(".");
+		_errmess = message.toString();
 	}
 	public String fixError () {
 		String solution = "";
@@ -46,13 +46,15 @@ public class AutoException extends Exception{
 		
 		case 10404 : solution = ef.fixInputFileString();
 		break;
-		case 10206 : solution = ef.fixOptionOrSetLine(_info);
+		case 10206 : solution = ef.fixOptionLine(_info);
 		break;
-		case 102061 : solution = ef.fixNumber(_info);
+		case 102061 : solution = ef.fixOptionSetLine(_info);
 		break;
-		case 102062 :solution = ef.fixOptionSetCount(_info);
+		case 102062 : solution = ef.fixNumber(_info);
 		break;
-		case 102063 : solution = ef.fixModelName(_info);
+		case 102063 :solution = ef.fixOptionSetCount(_info);
+		break;
+		case 102064 : solution = ef.fixModelName(_info);
 		break;
 		}
 		return solution;
@@ -69,8 +71,9 @@ public class AutoException extends Exception{
 
 /*Errors so far:
 10404 file not found
-10206 missing element in line --used for both Optionset and Option lines 
-102061 number not in correct format --used for both Optionset and Option lines
-102062 option set count not in correct format
-102063 model name missing
+10206 missing element in option line 
+102061 missing element in option set line
+102062 number not in correct format --used for both Optionset and Option lines
+102063 option set count not in correct format
+102064 model name missing
 */
