@@ -22,14 +22,14 @@ public class Driver2 {
 		System.out.println ("----------");
 		System.out.println("Transmission option name changed and Color.Cloud 9 White Cloearcoat value changed");
 		car1.printAuto("Ford Focus Wagon ZTW");
-		car1.deleteAuto("Ford Focus Wagon ZTW");
+		car1.removeAuto("Ford Focus Wagon ZTW");
 	}
 	private static void testErrorHandling ()
 	{
 		CanCreateModel car1 = new ModelBuilder();
-		car1.buildAuto("anautomobile.txt");
-		car1.deleteAuto("Ford Focus Wagon ZTW");
-		car1.buildAuto("broken_automobile.txt");
+		car1.buildAuto("anautomobile.txt");		//file that doesn't exist. Error handling looks for a default file instead
+		car1.removeAuto("Ford Focus Wagon ZTW");
+		car1.buildAuto("broken_automobile.txt");	//file that has missing line elements
 		car1.printAuto("Ford Focus Wagon ZTW");
 		
 	}

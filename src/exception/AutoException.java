@@ -26,14 +26,17 @@ public class AutoException extends Exception{
 		switch (_errcode) {
 		
 			case 10404 :	message.append("Could not find file ");		
-			break;
-			case 10206 :	message.append("Line element missing. Line: ");
-			break;
-			case 102061 : 	message.append("Number expected. Line: ");
-			break;
-			case 102062 : 	message.append("Number not present or is not an integer. Line: ");	
-			break;
-			case 102063 :	message.append("Model name not found. Line: ");
+				break;
+			case 10206 :	message.append("Option set line element missing. Line: ");
+				break;
+			case 102061 :	message.append("Option line element missing. Line: ");
+				break;
+			case 102062 : 	message.append("Number expected. Line: ");
+				break;
+			case 102063 : 	message.append("Number not present or is not an integer. Line: ");	
+				break;
+			case 102064 :	message.append("Model name not found. Line: ");
+				break;
 		}
 		message.append(_info);
 		message.append(".");
@@ -45,17 +48,17 @@ public class AutoException extends Exception{
 		switch (_errcode) {
 		
 		case 10404 : solution = ef.fixInputFileString();
-		break;
+			break;
 		case 10206 : solution = ef.fixOptionLine(_info);
-		break;
+			break;
 		case 102061 : solution = ef.fixOptionSetLine(_info);
-		break;
+			break;
 		case 102062 : solution = ef.fixNumber(_info);
-		break;
+			break;
 		case 102063 :solution = ef.fixOptionSetCount(_info);
-		break;
+			break;
 		case 102064 : solution = ef.fixModelName(_info);
-		break;
+			break;
 		}
 		return solution;
 	}

@@ -6,6 +6,6 @@ package adapter;
 public interface CanCreateModel {
 	public void buildAuto(String fileName);
 	public void printAuto(String modelName);
-	public void deleteAuto(String modelName);
+	public void removeAuto(String modelName);
 }
 

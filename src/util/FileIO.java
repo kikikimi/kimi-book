@@ -15,6 +15,7 @@ public class FileIO {
 	
 	public Model buildAutoModelObject(String fileName, Model automodel) throws AutoException {
 		boolean endFile = false;
+		boolean autoExCalled = false;
 		String line = "";
 		File fileCheck = new File (fileName);
 		System.out.println("Trying to load " + fileCheck.getAbsolutePath());
@@ -36,16 +37,20 @@ public class FileIO {
 						parseLine(automodel, line);
 					}
 					catch (AutoException ae) {
+						System.err.println("AutoException: " + ae.getErrMessage());
 						line = ae.fixError();
 						this.parseLine(automodel, line);
+						autoExCalled = true;
 					}
 			}
 			bReader.close();
 			fReader.close();
+			if (autoExCalled)
+				this.writeCorrectedAutoFile(fileName, automodel);
 			return automodel;
 		}
 		catch(Exception e) {
-			System.out.println("Error reading model file: " + e.getMessage());
+			System.err.println("Error reading model file: " + e.getMessage());
 			return null;
 		}
 	}
@@ -126,6 +131,43 @@ public class FileIO {
 			return false;
 		}
 	}
+	public void writeCorrectedAutoFile (String fileName, Model automodel) {
+		String [] splitLine = new String [3];
+		String file = "fixed" + fileName;
+		try {
+			PrintWriter pWriter = new PrintWriter(file);
+			splitLine[0] = "Model";
+			splitLine [1] = automodel.getModelName();
+			splitLine [2] = "";
+			pWriter.write(createLine(splitLine)); 
+			splitLine[0] = "Model Price";
+			splitLine[1] = Double.toString(automodel.getModelPrice());
+			splitLine[2] = "";
+			pWriter.write(createLine(splitLine));
+			splitLine[0] = "OptionSets";
+			splitLine[1] = Integer.toString(automodel.getOptionSetCount());
+			splitLine[2] = "";
+			pWriter.write(createLine(splitLine));
+			for (int i = 0; i < automodel.getOptionSetCount(); ++i) {
+				splitLine[0] = "OptionSet";
+				splitLine[1] = automodel.getOptionSetName(i);
+				splitLine[2] = Integer.toString(automodel.getOptionCount(i));	
+				pWriter.write(createLine(splitLine));
+				
+				for (int j = 0; j < automodel.getOptionCount(i); ++j) {
+					splitLine[0] = "Option";
+					splitLine[1] = automodel.getOptionValue(i, j);
+					splitLine[2] = Double.toString(automodel.getOptionPrice(i, j));
+					pWriter.write(createLine(splitLine));
+				}
+ 			}
+			pWriter.close();
+			System.out.println("For your convenience, changes have been saved to " + file);
+		}
+		catch (Exception e) {} //file printed for convenience. not too worried if it does not print.
+		
+		
+	}
 	protected void trimWhiteSpaceInArray (String [] line){
 		for (int i = 0; i < line.length; i++){
 			line [i] = line[i].trim();
@@ -148,5 +190,17 @@ public class FileIO {
 		}
 		in.close();
 		return Integer.parseInt(enteredVal);
+	}
+	private String createLine (String [] splitline) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < splitline.length; ++i) {
+			if (splitline[i] != "") {
+				sb.append(splitline[i]);
+				sb.append(", ");
+			}
+		}
+		sb.delete(sb.length() -2, sb.length());
+		sb.append("\n");
+		return sb.toString();
 	}
 }

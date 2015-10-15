@@ -42,6 +42,8 @@ public class Model implements Serializable{
 	
 	public int getOptionSetSize () {return this._optset.length;}
 	
+	public int getOptionSetCount () {return this._optsetCount;}
+	
 	public OptionSet getOptionSet (String setName) {
 		int setIndex = findOptionSetIndex(setName);
 		if (setIndex > -1) {
@@ -61,10 +63,12 @@ public class Model implements Serializable{
 			return this._optset[optSetIndex].getOptionPriceByValue(optValue);
 		else return null;
 	}
+	public int getOptionCount(int optSetIndex) {return this._optset[optSetIndex].getOptionCount();}
+	
 	public Double getOptionPrice(int optSetIndex, int optIndex) {
 		boolean inbounds = false;
 		if (optSetIndex > -1 && optSetIndex < this._optsetCount) {
-			if (optIndex > -1 && optIndex > this._optset[optSetIndex].getOptionCount()) {
+			if (optIndex > -1 && optIndex < this._optset[optSetIndex].getOptionCount()) {
 				inbounds = true;
 			}
 		}
@@ -72,6 +76,8 @@ public class Model implements Serializable{
 			return this._optset[optSetIndex].getOptionPrice(optIndex);
 		else return null;
 	}
+	public String getOptionSetName(int optSetIndex) {return this._optset[optSetIndex].getOptName();}
+	
     public String getOptionValue (int optSetIndex, int optIndex) {
     	boolean inbounds = false;
     	if (optSetIndex > -1 && optSetIndex < this._optsetCount) {

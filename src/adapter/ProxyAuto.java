@@ -68,7 +68,8 @@ public abstract class ProxyAuto {
 			}
 		}
 	}
-	public void deleteAuto (String modelName) {
+	//this will remove a Model from an group of Models later
+	public void removeAuto (String modelName) {	
 		if (compareNames (_autoModel.getModelName(), modelName)) {
 			_autoModel = null;
 		}
