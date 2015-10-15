@@ -4,16 +4,19 @@ file to build a car model. broken_autombile.txt contains errors to test the erro
  The design diagram is Main.jpg.
 Java source files Model.java and OptionSet.java are in src/automobile. FileIO.java is src/util. src/exception 
 contains ErrorFix.java and AutoException.java. AutoException is our custom exception with a fixError method. 
-ErrorFix contains supporting error fix methods.
+ErrorFix contains supporting error fix methods. After one or more AutoException is thrown from within 
+FileIO's buildAutoModelObject(), FileIO will try to write the Model with changes to a new plain text input
+ file titled "fixed<brokenfilename.txt>."
 
 Here are errors and codes used in this version:
 
 10404 file not found
 10206 missing element in option line 
 102061 missing element in option set line
-102062 number not in correct format --used for both Optionset and Option lines
+102062 number not in correct format --used for both OptionSet and Option lines
 102063 option set count not in correct format
 102064 model name missing
+
 
 New classes and interfaces are also in src/adapter. ProxyAuto is where most of the action methods are. ModelBuilder 
 is my alternative name for BuildAuto. CanUpdateModel, CanFixModel, and CanCreateModel are alternative names 
