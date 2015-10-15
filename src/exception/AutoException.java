@@ -53,7 +53,7 @@ public class AutoException extends Exception{
 			break;
 		case 102061 : solution = ef.fixOptionSetLine(_info);
 			break;
-		case 102062 : solution = ef.fixNumber(_info);
+		case 102062 : solution = ef.fixNumberForCountOrPrice(_info);
 			break;
 		case 102063 :solution = ef.fixOptionSetCount(_info);
 			break;

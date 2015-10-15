@@ -37,7 +37,7 @@ public class FileIO {
 						parseLine(automodel, line);
 					}
 					catch (AutoException ae) {
-						System.err.println("AutoException: " + ae.getErrMessage());
+						System.err.println("\nAutoException: " + ae.getErrMessage());
 						line = ae.fixError();
 						this.parseLine(automodel, line);
 						autoExCalled = true;
@@ -131,6 +131,7 @@ public class FileIO {
 			return false;
 		}
 	}
+	//Save the operator'c corrective work for the automobile config file
 	public void writeCorrectedAutoFile (String fileName, Model automodel) {
 		String [] splitLine = new String [3];
 		String file = "fixed" + fileName;
@@ -162,7 +163,8 @@ public class FileIO {
 				}
  			}
 			pWriter.close();
-			System.out.println("For your convenience, changes have been saved to " + file);
+			System.out.println("\nFor your convenience, changes have been saved to " + file);
+			System.out.println();
 		}
 		catch (Exception e) {} //file printed for convenience. not too worried if it does not print.
 		

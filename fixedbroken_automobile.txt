@@ -17,7 +17,7 @@ Option, Automatic, 0.0
 Option, Standard, -815.0
 OptionSet, Brakes/Traction Control, 3
 Option, Standard, 0.0
-Option, ABS, 400.0
+Option, ABS, 500.0
 Option, ABS with Advance Trac, 1625.0
 OptionSet, Side Impact Air Bags, 2
 Option, None, 0.0

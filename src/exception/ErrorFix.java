@@ -52,7 +52,7 @@ public class ErrorFix {
 		sb.append(correctedsplit[1]);
 		return sb.toString();
 	}
-	protected String fixNumber (String line) { //code 102061
+	protected String fixNumberForCountOrPrice (String line) { //code 102061 
 		String [] splitline = line.split(", ");
 		StringBuilder sb = new StringBuilder (splitline[0]);
 		String correctedval = "";

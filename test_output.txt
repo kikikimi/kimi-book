@@ -1,0 +1,105 @@
+Trying to load /Users/kimi/Documents/workspace/CIS35B/Lab2/automobile.txt
+Loaded by buildAuto and printed by printAuto:
+Ford Focus Wagon ZTW Base Price: $15,999.00
+    Color
+        Fort Knox Gold Clearcoat Metallic, Price: $0.00
+        Liquid Grey Clearcoat Metallic, Price: $0.00
+        Infra-Red Clearcoat, Price: $0.00
+        Grabber Green Clearcoat Metallic, Price: $0.00
+        Sangria Red Clearcoat Metallic, Price: $0.00
+        French Blue Clearcoat Metallic, Price: $0.00
+        Twilight Blue Clearcoat Metallic, Price: $0.00
+        CD Silver Clearcoat Metallic, Price: $0.00
+        Pitch Black Clearcoat, Price: $0.00
+        Cloud 9 White Clearcoat, Price: $0.00
+    Transmission
+        Automatic, Price: $0.00
+        Standard, Price: ($815.00)
+    Brakes/Traction Control
+        Standard, Price: $0.00
+        ABS, Price: $400.00
+        ABS with Advance Trac, Price: $1,625.00
+    Side Impact Air Bags
+        None, Price: $0.00
+        Select, Price: $350.00
+    Power Moonroof
+        None, Price: $0.00
+        Select, Price: $595.00
+
+----------
+Transmission option name changed and Color.Cloud 9 White Clearcoat value changed
+Ford Focus Wagon ZTW Base Price: $15,999.00
+    Color
+        Fort Knox Gold Clearcoat Metallic, Price: $0.00
+        Liquid Grey Clearcoat Metallic, Price: $0.00
+        Infra-Red Clearcoat, Price: $0.00
+        Grabber Green Clearcoat Metallic, Price: $0.00
+        Sangria Red Clearcoat Metallic, Price: $0.00
+        French Blue Clearcoat Metallic, Price: $0.00
+        Twilight Blue Clearcoat Metallic, Price: $0.00
+        CD Silver Clearcoat Metallic, Price: $0.00
+        Pitch Black Clearcoat, Price: $0.00
+        Blinding White Clearcoat, Price: $0.00
+    Driver Transmission
+        Automatic, Price: $0.00
+        Standard, Price: ($815.00)
+    Brakes/Traction Control
+        Standard, Price: $0.00
+        ABS, Price: $400.00
+        ABS with Advance Trac, Price: $1,625.00
+    Side Impact Air Bags
+        None, Price: $0.00
+        Select, Price: $350.00
+    Power Moonroof
+        None, Price: $0.00
+        Select, Price: $595.00
+
+Trying to load /Users/kimi/Documents/workspace/CIS35B/Lab2/anautomobile.txt
+Could not find file /Users/kimi/Documents/workspace/CIS35B/Lab2/anautomobile.txt.Trying to load /Users/kimi/Documents/workspace/CIS35B/Lab2/automobile.txt
+Done.
+Trying to load /Users/kimi/Documents/workspace/CIS35B/Lab2/broken_automobile.txt
+
+AutoException: Number not present or is not an integer. Line: OptionSets, 5..
+Line With a problem: "OptionSets, 5."
+Enter a number for the count of option sets: 5
+
+AutoException: Option line element missing. Line: OptionSet, Transmission.
+Line With a problem: "OptionSet, Transmission"
+Option set not in expected format. Enter number of option values: 2
+
+AutoException: Option set line element missing. Line: Option, Standard.
+Line With a problem: "Option, Standard"
+Line not in expected format. Enter option price: 0
+
+AutoException: Number expected. Line: Option, ABS, .Line With a problem: "Option, ABS, "
+Enter a corrected price for this option: 
+400.4
+
+For your convenience, changes have been saved to fixedbroken_automobile.txt
+
+Loaded Model info for broken_automobile.txt
+Ford Focus Wagon ZTW Base Price: $15,999.00
+    Color
+        Fort Knox Gold Clearcoat Metallic, Price: $0.00
+        Liquid Grey Clearcoat Metallic, Price: $0.00
+        Infra-Red Clearcoat, Price: $0.00
+        Grabber Green Clearcoat Metallic, Price: $0.00
+        Sangria Red Clearcoat Metallic, Price: $0.00
+        French Blue Clearcoat Metallic, Price: $0.00
+        Twilight Blue Clearcoat Metallic, Price: $0.00
+        CD Silver Clearcoat Metallic, Price: $0.00
+        Pitch Black Clearcoat, Price: $0.00
+        Cloud 9 White Clearcoat, Price: $0.00
+    Transmission
+        Automatic, Price: $0.00
+        Standard, Price: ($815.00)
+    Brakes/Traction Control
+        Standard, Price: $0.00
+        ABS, Price: $400.40
+        ABS with Advance Trac, Price: $1,625.00
+    Side Impact Air Bags
+        None, Price: $0.00
+        Select, Price: $350.00
+    Power Moonroof
+        None, Price: $0.00
+        Select, Price: $595.00

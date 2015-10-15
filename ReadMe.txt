@@ -1,12 +1,23 @@
-This is Kimberly Disher's Lab2. In the top level folder, Lab2 are included output files "test_output.txt", 
-from the console, "carLab1.ser", a serialized object file. "Automobile.txt" is the input
-file to build a car model. broken_autombile.txt contains errors to test the error handling in AutoException.java
- The design diagram is Main.jpg.
-Java source files Model.java and OptionSet.java are in src/automobile. FileIO.java is src/util. src/exception 
-contains ErrorFix.java and AutoException.java. AutoException is our custom exception with a fixError method. 
-ErrorFix contains supporting error fix methods. After one or more AutoException is thrown from within 
-FileIO's buildAutoModelObject(), FileIO will try to write the Model with changes to a new plain text input
- file titled "fixed<brokenfilename.txt>."
+This is Kimberly Disher's Lab2. 
+
+Output files - 
+test_output.txt (console/system.err output)
+fixedbroken_filename.txt (Model config file with saved error fixes)
+ 
+Input files -
+
+Automobile.txt (config for a auto Model). 
+broken_autombile.txt (Model config file with errors for Exception testing)
+
+New classes and interfaces for Lab 2
+adapter.ProxyAuto-- abstract class with methods for accessing Model.
+adapter.ModelBuilder -- extends ProxyAuto
+adapter.CanUpdateModel, CanFixModel, and CanCreateModel -- Interfaces for controlling Model access.
+exception.ErrorFix	--Supporting methods called from AutoException
+exception.AutoException	--Custom exception handler.
+
+The driver with main is located at src/tester/driver2.java. 
+The design diagram is Main.jpg
 
 Here are errors and codes used in this version:
 
@@ -17,12 +28,8 @@ Here are errors and codes used in this version:
 102063 option set count not in correct format
 102064 model name missing
 
-
-New classes and interfaces are also in src/adapter. ProxyAuto is where most of the action methods are. ModelBuilder 
-is my alternative name for BuildAuto. CanUpdateModel, CanFixModel, and CanCreateModel are alternative names 
-for UpdateAuto, FixAuto, and CreateAuto, because I like the idea of adjective-like interface names.
-
-The driver with main is located at src/tester/driver2.java. 
+After one or more AutoException is thrown from within FileIO's buildAutoModelObject(), FileIO will try to
+write the Model with changes to a new plain text input file titled "fixed<brokenfilename.txt>." 
 
 Note:
 Some of the error-fixes may not be considered true self-healing. When a value is missing, the app goes 
