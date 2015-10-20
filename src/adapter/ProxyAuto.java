@@ -1,31 +1,38 @@
 /* Kimberly Disher
  * CIS 35B
- * New for Lab 2
+ * Updated for Lab 3
  */
 package adapter;
 
 import automobile.*;
 import util.*;
 import exception.*;
+import java.util.*;
 
 public abstract class ProxyAuto {
-	private static Model _autoModel;
+	private Model _autoModel;
+	private static LinkedHashMap <String, Model> _autoModelGroup = new LinkedHashMap <String, Model> ();
 	
 	public void buildAuto(String fileName) { 
 		FileIO builder = new FileIO ();
+		_autoModel = new Model ();
 			try {
-				if (_autoModel == null){	
-					_autoModel = new Model ();
-				}
+
 				_autoModel = builder.buildAutoModelObject(fileName, _autoModel);
 			}
 			catch (AutoException ae){
 				System.out.print (ae.getErrMessage());
 				try {
-					_autoModel = builder.buildAutoModelObject(ae.fixError(),  _autoModel);
+					_autoModel = builder.buildAutoModelObject(fileName, _autoModel);
 				}
 				catch (AutoException e){
 					System.out.print ("Could not resolve error " + ae.getErrMessage());
+				}
+			}
+			finally {
+				if (_autoModel != null) {
+					_autoModel.setDefaultOptionChoices();
+					addAuto(_autoModel);
 				}
 			}
 	}
@@ -33,15 +40,19 @@ public abstract class ProxyAuto {
 	
 	//prints to console based on if the model name is found
 	public void printAuto(String modelName) {
-		if (compareNames (_autoModel.getModelName(), modelName))
-			System.out.print(_autoModel.toString());
+		_autoModel = _autoModelGroup.get(modelName);
+		if (_autoModel != null) {
+			System.out.println(_autoModel.toString());
+			System.out.print("Price with selected options(may be defaults):");
+			System.out.println(_autoModel.getTotalPrice());
+		}
 		else System.out.print("Model name" + modelName + "not found");
 	}
 	//optionName goes with optionset, optVal is the String property in an option.
 	public void updateOptionPrice(String modelName, String optionName, String optVal, float newprice) {
 		int setIndex;
-		
-		if (compareNames (_autoModel.getModelName(), modelName)) {
+		_autoModel = _autoModelGroup.get(modelName);
+		if (_autoModel != null) {
 			setIndex = _autoModel.findOptionSetIndex(optionName);
 			if (setIndex != -1) {
 				_autoModel.updateOptionPrice (setIndex, optVal, newprice);
@@ -50,8 +61,8 @@ public abstract class ProxyAuto {
 	}
 	public void updateOptionSetName(String modelName, String optionSetName, String newName) { 
 		int setIndex;
-		
-		if (compareNames (_autoModel.getModelName(), modelName)) {
+		_autoModel = _autoModelGroup.get(modelName);
+		if (_autoModel != null) {
 			setIndex = _autoModel.findOptionSetIndex(optionSetName);
 			if (setIndex != -1) {
 				_autoModel.updateOptionSetName (setIndex, newName);
@@ -61,27 +72,21 @@ public abstract class ProxyAuto {
 	//optionName goes with optionset, optVal is the String property in an option.
 	public void updateOptionValue(String modelName, String optionName, String oldOptVal, String newOptVal){
 		int setIndex;
-		if (compareNames (_autoModel.getModelName(), modelName)) {
+		_autoModel = _autoModelGroup.get(modelName);
+		if (_autoModel != null) {
 			setIndex = _autoModel.findOptionSetIndex(optionName);
 			if (setIndex != -1) {
 				_autoModel.updateOptionName(setIndex, oldOptVal, newOptVal);
 			}
 		}
 	}
-	//this will remove a Model from an group of Models later
+	//this will remove a Model from the _autoModelGroup
 	public void removeAuto (String modelName) {	
-		if (compareNames (_autoModel.getModelName(), modelName)) {
-			_autoModel = null;
-		}
+		_autoModelGroup.remove(modelName);
 	}
-	
-	//helper. This may be modified in the future to become findModel ().
-	private static boolean compareNames (String existingName, String queryName)
-	{
-		String existingLowercase = existingName.toLowerCase();
-		String queryLowercase = queryName.toLowerCase();
-		if (existingLowercase.indexOf(queryLowercase) != -1)
-			return true;
-		else return false;
+	public void addAuto(Model autoModel) {
+		if (!_autoModelGroup.containsKey(autoModel.getModelName())) {
+			_autoModelGroup.put(autoModel.getModelName(), autoModel);
+		}
 	}
 }

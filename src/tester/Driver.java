@@ -35,7 +35,6 @@ public class Driver {
 	//test an add method
 	private static void addColorToModel (Model car){
 		if (car != null){
-			car.updateOptionSetSize(0, 11);
 			car.addOptionToSet("Color", "Super Grape Metallic Clearcoat", 0D);
 		}
 	}

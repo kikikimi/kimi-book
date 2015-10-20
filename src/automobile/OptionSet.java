@@ -1,5 +1,6 @@
 /* Kimberly Disher
- * CIS 35B Lab 1
+ * CIS 35B
+ * Updated for Lab 3
  */
 package automobile;
 
@@ -9,39 +10,40 @@ import java.io.Serializable;
 
 class OptionSet implements Serializable{
 	private String _optName;
-	private Option [] _options;
-	private int _optCount;	//a count of the option items, since we are using an array that may be partly empty
+	private ArrayList <Option> _options;
+	private Option _optChoice;
 	private static final long serialVersionUID = 1158L;  //so when we make changes, old versions become incompatible
 	
 	OptionSet (){}
 	OptionSet (String nm){
 		setOptName (nm);
-		_optCount = 0;
 	}
 	OptionSet (int size, String nm){
 		this (nm);
-		this._options = new Option[size];
+		this._options = new ArrayList<Option>(size);
 	}
 	protected String getOptName() {return _optName;}
 	
-	protected Option getOption (int index) {return this._options[index];}
+	protected Option getOption (int index) {return this._options.get(index);}
 	
-	protected Option[] getOptions() {return _options;}
+	protected ArrayList<Option> getOptions() {return _options;}
         
-	protected Option getOption(String value) {return this._options [this.findOptionIndexByValue(value)];}
+	protected Option getOption(String value) {return this._options.get(this.findOptionIndexByValue(value));}
 	
-	protected int getOptionCount() {return this._optCount;}    
+	protected int getOptionCount() {return this._options.size();}    
+	
+	protected Option getOptionChoice() {return this._optChoice;}
         
-	protected double getOptionPrice (int index) {return this._options[index].getOptPrice();}
+	protected double getOptionPrice (int index) {return this._options.get(index).getOptPrice();}
 	
-	protected String getOptionValue (int index) {return this._options[index].getOptValue();}
+	protected String getOptionValue (int index) {return this._options.get(index).getOptValue();}
 	
-	protected int getOpsetSize() {return this._options.length;}
+	protected int getOpsetSize() {return this.getOptionCount();}
 	
 	protected Double getOptionPriceByValue (String optValue) {
 		int optIndex = findOptionIndexByValue(optValue);
 		if (optIndex > -1)
-			return this._options[optIndex]._optPrice;
+			return this._options.get(optIndex).getOptPrice();
 		else return null;
 	}
 	protected void setOptName(String optName) {this._optName = optName;}
@@ -51,19 +53,20 @@ class OptionSet implements Serializable{
 			this.addOption (opt._optValue, opt._optPrice);
 		}
 	}
+	protected void setOptionChoice(String optValue) {
+		_optChoice = _options.get(this.findOptionIndexByValue(optValue));
+	}
+	protected void setDefaultOptionChoice() {
+		_optChoice = _options.get(0);
+	}
 	protected boolean addOption (String optValue, double optPrice){
-		if (_optCount < _options.length){
-			_options[_optCount++] = new Option(optValue, optPrice);
-			return true;
-		}
-		else 
-			return false;
+		return _options.add(new Option(optValue, optPrice));
 	}
 	protected boolean updateOptionPrice (String optVal, double price) {
 		boolean updated = false;
 		int optIndex = this.findOptionIndexByValue(optVal);
 		if (optIndex != -1) {
-			this._options[optIndex].setOptPrice(price);
+			this._options.get(optIndex).setOptPrice(price);
 			updated = true;
 		}
 		return updated;
@@ -72,38 +75,28 @@ class OptionSet implements Serializable{
 		boolean updated = false;
 		int optIndex = this.findOptionIndexByValue(optVal);
 		if (optIndex != -1) {
-			this._options[optIndex].setOptValue(newOptVal);
+			this._options.get(optIndex).setOptValue(newOptVal);
 			updated = true;
 		}
 		return updated;
 	}
-	protected boolean updateOptionsSize (int size) {
-		if (size > this._optCount) { //make sure the new array is large enough to copy all existing options
-			
-			Option [] options = new Option [size];
-			for (int i = 0; i < _optCount; i++) {
-				options [i] = this._options [i];
-			}
-			_options = options;
-			return true;
-		}
-		else return false;
+	protected boolean deleteOption (String optValue) {
+		return deleteOption(findOptionIndexByValue(optValue));
 	}
     protected boolean deleteOption (int optIndex) {
     	boolean deleted = false;
-		if (optIndex > -1 && optIndex < this._optCount) {
-			this._options[optIndex] = null;
-			deleted = this.moveUpOptions(optIndex);
-			this._optCount--;
-		}
-		return deleted;
+    	if (optIndex > -1 && optIndex < this._options.size()) {
+    		_options.remove(optIndex);
+    		deleted = true;
+    	}
+    	return deleted;
     }
     protected int findOptionIndexByValue (String optValue) {
-        int index = 0;
+    	int index = 0;
         boolean found = false;
-        while (!found && index < this._optCount)
-        {
-        	if (_options[index].getOptValue().indexOf(optValue) != -1) {
+        
+        while (!found && index < _options.size()){
+        	if (_options.get(index).getOptValue().indexOf(optValue) != -1) {
         		found = true;
         	}
         	else index++;
@@ -115,27 +108,13 @@ class OptionSet implements Serializable{
 	protected String toStringHelper() {
 		StringBuilder sb = new StringBuilder (_optName);
 		sb.append("\n");
-		for (int i = 0; i < this._optCount; i++) {
+		for (int i = 0; i < this._options.size(); i++) {
 			sb.append("        "); 			// using spaces, since tab size varies by system
-			sb.append(this._options[i].toStringHelper());
+			sb.append(this._options.get(i).toStringHelper());
 			sb.append("\n");
 		}
-                return sb.toString();
-	}
-	private boolean moveUpOptions (int emptyIndex) {
-		try{
-			while (emptyIndex < this._optCount - 1){ //optCount is supposed to hold the next empty index at the end of the array
-				this._options[emptyIndex] = this._options[emptyIndex + 1];
-				emptyIndex++;
-			}
-			this._options[emptyIndex] = null;
-			return true;
-		}
-		catch (IndexOutOfBoundsException e) {
-			return false;
-		}
-	}
-        
+        return sb.toString();
+	}   
 	protected class Option implements Serializable {
 		private String _optValue;
 		private double _optPrice;

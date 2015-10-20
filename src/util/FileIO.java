@@ -8,8 +8,6 @@ import java.io.*;
 import automobile.*;
 import exception.*;
 
-import java.util.*;
-
 public class FileIO {
 	public FileIO() {}
 	
@@ -146,10 +144,10 @@ public class FileIO {
 			splitLine[2] = "";
 			pWriter.write(createLine(splitLine));
 			splitLine[0] = "OptionSets";
-			splitLine[1] = Integer.toString(automodel.getOptionSetCount());
+			splitLine[1] = Integer.toString(automodel.getOptionSetSize());
 			splitLine[2] = "";
 			pWriter.write(createLine(splitLine));
-			for (int i = 0; i < automodel.getOptionSetCount(); ++i) {
+			for (int i = 0; i < automodel.getOptionSetSize(); ++i) {
 				splitLine[0] = "OptionSet";
 				splitLine[1] = automodel.getOptionSetName(i);
 				splitLine[2] = Integer.toString(automodel.getOptionCount(i));	
@@ -174,24 +172,6 @@ public class FileIO {
 		for (int i = 0; i < line.length; i++){
 			line [i] = line[i].trim();
 		}
-	}
-	private int getNumberFromConsole(String query){
-		Scanner in = new Scanner (System.in);
-		boolean goodInput = false;
-		String enteredVal = "";
-		
-		while (!goodInput) {
-			System.out.print (query);
-			enteredVal = in.nextLine();
-			if (enteredVal.matches("/d+")) {
-				goodInput = true;
-			}
-			else {
-				System.out.println ("Please enter only a number.");
-			}
-		}
-		in.close();
-		return Integer.parseInt(enteredVal);
 	}
 	private String createLine (String [] splitline) {
 		StringBuilder sb = new StringBuilder();
