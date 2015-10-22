@@ -105,11 +105,14 @@ class OptionSet implements Serializable{
         	return index;
         else return -1;
     }
-	protected String toStringHelper() {
+	protected String toStringHelper(boolean printChoice) {
 		StringBuilder sb = new StringBuilder (_optName);
 		sb.append("\n");
 		for (int i = 0; i < this._options.size(); i++) {
-			sb.append("        "); 			// using spaces, since tab size varies by system
+			if (printChoice && this._options.get(i) == this._optChoice)
+				sb.append("X       ");
+			else 
+				sb.append("        "); 			// using spaces, since tab size varies by system
 			sb.append(this._options.get(i).toStringHelper());
 			sb.append("\n");
 		}

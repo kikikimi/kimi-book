@@ -10,6 +10,7 @@ import java.util.*;
 
 public class Model implements Serializable{
 	private ArrayList<OptionSet> _optset;
+	private String _makerName;
 	private String _modelName;
 	private double _price;		// the model's base price
 	
@@ -17,6 +18,7 @@ public class Model implements Serializable{
 	
 	public Model() {
 		initOptionSets(0);
+		_makerName = "";
 	}
 	public Model(String nm, double price) {
 		this ();
@@ -34,6 +36,8 @@ public class Model implements Serializable{
 	public void initOptionSets (int numSets) {this._optset = new ArrayList<OptionSet> (numSets);} //set up empty array with initial count
 	
 	public String getModelName() {return _modelName;}
+	
+	public String getMakerName() {return _makerName;}
 	
 	public ArrayList <OptionSet> getAllOptionSets() {return _optset;}
 	
@@ -111,6 +115,8 @@ public class Model implements Serializable{
 		return price;
 	}
 	public void setModelName(String name) {this._modelName = name;}
+	
+	public void setMakerName(String name) {this._makerName = name;}
 	
 	public void setOptionSet(OptionSet[] optset) {
 		for (OptionSet subOptSet : optset) {
@@ -221,15 +227,35 @@ public class Model implements Serializable{
 
 	public String toString(){
 		ListIterator<OptionSet> osIterator = _optset.listIterator();
-		StringBuilder sb = new StringBuilder(this._modelName);
+		StringBuilder sb = new StringBuilder(this._makerName);
+		sb.append(" ");
+		sb.append(this._modelName);
 		sb.append(" Base Price: ");
 		sb.append(NumberFormat
                         .getCurrencyInstance(new Locale("en", "US"))
                         .format(_price));
 		sb.append("\n");
 		while (osIterator.hasNext()) {
-			sb.append("    ");		//using spaces, since tab sizes vary by system/
-			sb.append(osIterator.next().toStringHelper());
+			sb.append("    ");		//using spaces, since tab sizes vary by system
+			sb.append(osIterator.next().toStringHelper(false));
+		}
+        return sb.toString();
+	}
+	public String toStringWChoices(){
+		ListIterator<OptionSet> osIterator = _optset.listIterator();
+		OptionSet oSet;
+		StringBuilder sb = new StringBuilder(this._makerName);
+		sb.append(" ");
+		sb.append(this._modelName);
+		sb.append(" Base Price: ");
+		sb.append(NumberFormat
+                        .getCurrencyInstance(new Locale("en", "US"))
+                        .format(_price));
+		sb.append("\n");
+		while (osIterator.hasNext()) {
+			oSet = osIterator.next();
+			sb.append("    ");		//using spaces, since tab sizes vary by system
+			sb.append(oSet.toStringHelper(true));
 		}
         return sb.toString();
 	}

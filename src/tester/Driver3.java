@@ -12,10 +12,13 @@ public class Driver3 {
 		//load values into model and print
 				CanCreateModel car1 = new ModelBuilder();
 				car1.buildAuto("automobile.txt");
-				System.out.println("Loaded by buildAuto and printed by printAuto:");
+				System.out.println("First model");
 				car1.printAuto("Ford Focus Wagon ZTW");
 				System.out.println();
-
+				car1.buildAuto("automobile2.txt");
+				System.out.println("Second model");
+				car1.printAuto("Ford Focus Sedan");
+				System.out.println();
 	}
 
 }
