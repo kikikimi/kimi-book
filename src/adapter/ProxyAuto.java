@@ -40,9 +40,9 @@ public abstract class ProxyAuto {
 	
 	//prints to console based on if the model name is found
 	public void printAuto(String modelName) {
-		modelName = modelName.toLowerCase();
 		_autoModel = _autoModelGroup.get(modelName);
 		if (_autoModel != null) {
+			//using toStringWChoices to show optionChoice is functional
 			System.out.println(_autoModel.toStringWChoices());
 			System.out.print("Price with selected options(may be defaults):");
 			System.out.println(_autoModel.getTotalPrice());
@@ -52,7 +52,6 @@ public abstract class ProxyAuto {
 	//optionName goes with optionset, optVal is the String property in an option.
 	public void updateOptionPrice(String modelName, String optionName, String optVal, float newprice) {
 		int setIndex;
-		modelName = modelName.toLowerCase();
 		_autoModel = _autoModelGroup.get(modelName);
 		if (_autoModel != null) {
 			setIndex = _autoModel.findOptionSetIndex(optionName);
@@ -63,7 +62,6 @@ public abstract class ProxyAuto {
 	}
 	public void updateOptionSetName(String modelName, String optionSetName, String newName) { 
 		int setIndex;
-		modelName = modelName.toLowerCase();
 		_autoModel = _autoModelGroup.get(modelName);
 		if (_autoModel != null) {
 			setIndex = _autoModel.findOptionSetIndex(optionSetName);
@@ -75,7 +73,6 @@ public abstract class ProxyAuto {
 	//optionName goes with optionset, optVal is the String property in an option.
 	public void updateOptionValue(String modelName, String optionName, String oldOptVal, String newOptVal){
 		int setIndex;
-		modelName = modelName.toLowerCase();
 		_autoModel = _autoModelGroup.get(modelName);
 		if (_autoModel != null) {
 			setIndex = _autoModel.findOptionSetIndex(optionName);
@@ -84,15 +81,12 @@ public abstract class ProxyAuto {
 			}
 		}
 	}
-	//this will remove a Model from the _autoModelGroup
 	public void removeAuto (String modelName) {	
-		modelName = modelName.toLowerCase();
 		_autoModelGroup.remove(modelName);
 	}
-	//adding the keys in lowercase to simplify comparisons.
 	public void addAuto(Model autoModel) {
-		if (!_autoModelGroup.containsKey(autoModel.getModelName().toLowerCase())) {
-			_autoModelGroup.put(autoModel.getModelName().toLowerCase(), autoModel);
+		if (!_autoModelGroup.containsKey(autoModel.getModelName())) {
+			_autoModelGroup.put(autoModel.getModelName(), autoModel);
 		}
 	}
 }

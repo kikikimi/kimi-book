@@ -1,4 +1,4 @@
-This is Kimberly Disher's Lab2. 
+This is Kimberly Disher's Lab3. 
 
 Output files - 
 test_output.txt (console/system.err output)
@@ -6,20 +6,29 @@ fixedbroken_filename.txt (Model config file with saved error fixes)
  
 Input files -
 
-Automobile.txt (config for a auto Model). 
+automobile.txt (config for a auto Model). 
+automobile2.txt (different config for an auto Model).
 broken_autombile.txt (Model config file with errors for Exception testing)
 
-New classes and interfaces for Lab 2
-adapter.ProxyAuto-- abstract class with methods for accessing Model.
-adapter.ModelBuilder -- extends ProxyAuto
-adapter.CanUpdateModel, CanFixModel, and CanCreateModel -- Interfaces for controlling Model access.
-exception.ErrorFix	--Supporting methods called from AutoException
-exception.AutoException	--Custom exception handler.
+Updated Classes for Lab 3
+ProxyAuto -- Updated to use a LinkedHashMap<Model> for a group of autos
+			 added addAuto, and updated removeAuto to handle Model instances in a LinkedHashMap.
 
-The driver with main is located at src/tester/driver2.java. 
-The design diagram is Main.jpg
+Model -- now uses an ArrayList<OptionSet> for option sets instead of an array. Counters and 
+		 	methods dealing with the old array have been deleted (optionSetCount).
+		 added getters/setters for Option choice name and prices in OptionSet.
+		 Added getTotalPrice to add option choice prices to model price.
+		 Added toStringWChoices to print Model and show selected options.
+		 
+OptionSet -- now uses an ArrayList<Option> for options instead of an array. Counters and methods 
+				used in array housekeeping are gone (moveUpOptions).
+			added Option _optChoice and associated get/set methods.
+			toStringHelper modified to have an option of showing selected options.
 
-Here are errors and codes used in this version:
+The driver with main is located at src/tester/driver3.java. 
+The design diagram is Lab3Diagram.jpg
+
+Here are errors and codes added in Lab 2:
 
 10404 file not found
 10206 missing element in option line 
@@ -27,14 +36,5 @@ Here are errors and codes used in this version:
 102062 number not in correct format --used for both OptionSet and Option lines
 102063 option set count not in correct format
 102064 model name missing
-
-After one or more AutoException is thrown from within FileIO's buildAutoModelObject(), FileIO will try to
-write the Model with changes to a new plain text input file titled "fixed<brokenfilename.txt>." 
-
-Note:
-Some of the error-fixes may not be considered true self-healing. When a value is missing, the app goes 
-to the console to ask for a new value.  I've learned on the job that sometimes a developer defaulting to a 
-value can go missed by QA and cost thousands in production. My approach is bringing these errors to light, 
-especially missing prices. 
 
 

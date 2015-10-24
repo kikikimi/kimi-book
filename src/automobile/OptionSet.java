@@ -14,21 +14,21 @@ class OptionSet implements Serializable{
 	private Option _optChoice;
 	private static final long serialVersionUID = 1158L;  //so when we make changes, old versions become incompatible
 	
-	OptionSet (){}
-	OptionSet (String nm){
+	OptionSet() {}
+	OptionSet(String nm) {
 		setOptName (nm);
 	}
-	OptionSet (int size, String nm){
+	OptionSet(int size, String nm) {
 		this (nm);
 		this._options = new ArrayList<Option>(size);
 	}
-	protected String getOptName() {return _optName;}
+	protected String getOptName() {return _optName;} //Option Set Name
 	
 	protected Option getOption (int index) {return this._options.get(index);}
 	
-	protected ArrayList<Option> getOptions() {return _options;}
-        
 	protected Option getOption(String value) {return this._options.get(this.findOptionIndexByValue(value));}
+	
+	protected ArrayList<Option> getOptions() {return _options;}
 	
 	protected int getOptionCount() {return this._options.size();}    
 	
@@ -46,6 +46,9 @@ class OptionSet implements Serializable{
 			return this._options.get(optIndex).getOptPrice();
 		else return null;
 	}
+	protected void setDefaultOptionChoice() {
+		_optChoice = _options.get(0);
+	}
 	protected void setOptName(String optName) {this._optName = optName;}
 	
 	protected void setOptions(Option[] options) {	//copy the contents, we don't trust that the source array won't be messed with.
@@ -55,9 +58,6 @@ class OptionSet implements Serializable{
 	}
 	protected void setOptionChoice(String optValue) {
 		_optChoice = _options.get(this.findOptionIndexByValue(optValue));
-	}
-	protected void setDefaultOptionChoice() {
-		_optChoice = _options.get(0);
 	}
 	protected boolean addOption (String optValue, double optPrice){
 		return _options.add(new Option(optValue, optPrice));
@@ -110,7 +110,7 @@ class OptionSet implements Serializable{
 		sb.append("\n");
 		for (int i = 0; i < this._options.size(); i++) {
 			if (printChoice && this._options.get(i) == this._optChoice)
-				sb.append("X       ");
+				sb.append("    X   ");
 			else 
 				sb.append("        "); 			// using spaces, since tab size varies by system
 			sb.append(this._options.get(i).toStringHelper());

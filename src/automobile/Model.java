@@ -33,17 +33,34 @@ public class Model implements Serializable{
 		this(nm, price);
 		initOptionSets (optSetSize);
     }
-	public void initOptionSets (int numSets) {this._optset = new ArrayList<OptionSet> (numSets);} //set up empty array with initial count
+	//set up empty ArrayList with initial count to not waste space if we can
+	public void initOptionSets (int numSets) {this._optset = new ArrayList<OptionSet> (numSets);} 
+	
+	public ArrayList <OptionSet> getAllOptionSets() {return _optset;}
 	
 	public String getModelName() {return _modelName;}
 	
 	public String getMakerName() {return _makerName;}
 	
-	public ArrayList <OptionSet> getAllOptionSets() {return _optset;}
+	public double getModelPrice() {return _price;}
 	
+    public String getOptionChoice (String setName) {
+    	int index = findOptionSetIndex(setName);
+    	if (index > -1) {
+    		return _optset.get(index).getOptionChoice().getOptValue();
+    	}
+    	else return null;
+    }
+    public Double getOptionChoicePrice(String setName) {
+    	int setIndex = findOptionSetIndex(setName);
+    	if (setIndex != -1 && _optset.get(setIndex).getOptionChoice() != null) {
+    			return _optset.get(setIndex).getOptionChoice().getOptPrice();
+    	}
+    	else return null;
+    }	
 	public OptionSet getOptionSet(int index) {return this._optset.get(index);}
 	
-	public int getOptionSetSize () {return this._optset.size();}
+	public int getOptionSetSize() {return this._optset.size();}
 	
 	public OptionSet getOptionSet (String setName) {
 		int setIndex = findOptionSetIndex(setName);
@@ -52,9 +69,9 @@ public class Model implements Serializable{
 		}
 		else return null;
 	}
-	public double getModelPrice() {return _price;}
+	public int getOptionCount(int optSetIndex) {return this._optset.get(optSetIndex).getOptionCount();}
 	
-	//Yep, these return Double. We return null if there is a problem getting the number. Planning this for use with error handling later.
+	//Yep, these return Double. We return null if there is a problem getting the number. Makes it easy to tell there's a problem
 	public Double getOptionPrice(String optSetName, String optValue) {
 		int setIndex = findOptionSetIndex (optSetName);
 		return getOptionPrice (setIndex, optValue);	
@@ -64,8 +81,6 @@ public class Model implements Serializable{
 			return this._optset.get(optSetIndex).getOptionPriceByValue(optValue);
 		else return null;
 	}
-	public int getOptionCount(int optSetIndex) {return this._optset.get(optSetIndex).getOptionCount();}
-	
 	public Double getOptionPrice(int optSetIndex, int optIndex) {
 		boolean inbounds = false;
 		if (optSetIndex > -1 && optSetIndex < this._optset.size()) {
@@ -90,22 +105,7 @@ public class Model implements Serializable{
     		return this._optset.get(optSetIndex).getOptionValue(optIndex);
     	else return null;
     }
-    
-    public String getOptionChoice (String setName) {
-    	int index = findOptionSetIndex(setName);
-    	if (index > -1) {
-    		return _optset.get(index).getOptionChoice().getOptValue();
-    	}
-    	else return null;
-    }
-    public Double getOptionChoicePrice(String setName) {
-    	int setIndex = findOptionSetIndex(setName);
-    	if (setIndex != -1 && _optset.get(setIndex).getOptionChoice() != null) {
-    			return _optset.get(setIndex).getOptionChoice().getOptPrice();
-    	}
-    	else return null;
-    }	
-    public double getTotalPrice () {
+    public double getTotalPrice () { //uses prices of chosen options --OptionChoice
 		double price = 0.0;
 		ListIterator<OptionSet> optIterator = _optset.listIterator();
 		price += this._price;
@@ -114,15 +114,17 @@ public class Model implements Serializable{
 		}
 		return price;
 	}
+	public void setDefaultOptionChoices ()
+	{
+		int i = 0;
+		while (i < _optset.size()) {
+			_optset.get(i++).setDefaultOptionChoice();
+		}
+	}
 	public void setModelName(String name) {this._modelName = name;}
 	
 	public void setMakerName(String name) {this._makerName = name;}
 	
-	public void setOptionSet(OptionSet[] optset) {
-		for (OptionSet subOptSet : optset) {
-			this._optset.add(subOptSet);
-		}
-	}
 	public void setModelPrice(double price) {this._price = price;}
 	
 	public boolean setOptionChoice (String setName, String optName) {
@@ -140,11 +142,9 @@ public class Model implements Serializable{
 		}
 		return choiceSet;
 	}
-	public void setDefaultOptionChoices ()
-	{
-		int i = 0;
-		while (i < _optset.size()) {
-			_optset.get(i++).setDefaultOptionChoice();
+	public void setOptionSet(OptionSet[] optset) {
+		for (OptionSet subOptSet : optset) {
+			this._optset.add(subOptSet);
 		}
 	}
 	public boolean addOptionSet(String setName, OptionSet.Option [] opts){
@@ -168,19 +168,6 @@ public class Model implements Serializable{
 	public boolean addOptionToLastSet (String optVal, double optPrice){
 		return this.addOptionToSet(this._optset.size() - 1, optVal, optPrice);
 	}
-	public int findOptionSetIndex(String name){
-		int index = 0;
-        boolean found = false;
-        while (!found && index < this._optset.size())
-        {
-        	if (this._optset.get(index).getOptName().indexOf(name) != -1)
-        		found = true;
-        	else index++;
-        }
-        if (found) 
-        	return index;
-        else return -1;
-	}
 	public boolean updateOptionSetName (int setIndex, String setName) {
 		boolean updated = false;
 		if (setIndex > -1 && setIndex < this._optset.size()) {
@@ -196,10 +183,6 @@ public class Model implements Serializable{
 	}
 	public boolean updateOptionName(int setIndex, String optName, String newOptName) {
 		return this._optset.get(setIndex).updateOptionValue(optName, newOptName);
-	}
-	
-	public int findOptionIndex(int setIndex, String optValue)  {
-		return this._optset.get(setIndex).findOptionIndexByValue(optValue);
 	}
 	public boolean deleteOptionSet (int setIndex) {
 		boolean deleted = false;
@@ -241,6 +224,7 @@ public class Model implements Serializable{
 		}
         return sb.toString();
 	}
+	//sends true to OptionSet.toStringHelper to print an "X" next to a selected option. Otherwise, just a toString().
 	public String toStringWChoices(){
 		ListIterator<OptionSet> osIterator = _optset.listIterator();
 		OptionSet oSet;
@@ -258,5 +242,21 @@ public class Model implements Serializable{
 			sb.append(oSet.toStringHelper(true));
 		}
         return sb.toString();
+	}
+	public int findOptionIndex(int setIndex, String optValue)  {
+		return this._optset.get(setIndex).findOptionIndexByValue(optValue);
+	}
+	public int findOptionSetIndex(String name){
+		int index = 0;
+        boolean found = false;
+        while (!found && index < this._optset.size())
+        {
+        	if (this._optset.get(index).getOptName().indexOf(name) != -1)
+        		found = true;
+        	else index++;
+        }
+        if (found) 
+        	return index;
+        else return -1;
 	}
 }

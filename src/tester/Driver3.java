@@ -19,6 +19,10 @@ public class Driver3 {
 				System.out.println("Second model");
 				car1.printAuto("Ford Focus Sedan");
 				System.out.println();
+				car1.buildAuto("automobile3.txt");
+				System.out.println("Second model");
+				car1.printAuto("Ford Avenger Wagon");
+				System.out.println();
 	}
 
 }
