@@ -1,12 +1,10 @@
 /* Kimberly Disher
  * CIS 35B
- * New for Lab 2
- * This interface will contain method declarations for updating all Model, OptionSet, and Option
- * data, eventually.
+ * New for Lab 4
  */
-package adapter;
+package scale;
 
-public interface CanUpdateModel {
+public interface ScaleThread extends Runnable{
 	public void updateOptionPrice(String modelName, String optionName, String optVal, float newprice);
 	public void updateOptionSetName(String modelName, String optionSetName, String newName);
 	public void updateOptionValue(String modelName, String optionName, String oldOptVal, String newOptVal);

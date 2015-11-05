@@ -7,6 +7,7 @@ package adapter;
 import automobile.*;
 import util.*;
 import exception.*;
+
 import java.util.*;
 
 public abstract class ProxyAuto {
@@ -77,9 +78,30 @@ public abstract class ProxyAuto {
 		if (_autoModel != null) {
 			setIndex = _autoModel.findOptionSetIndex(optionName);
 			if (setIndex != -1) {
-				_autoModel.updateOptionName(setIndex, oldOptVal, newOptVal);
+				if(_autoModel.updateOptionName(setIndex, oldOptVal, newOptVal))
+					System.out.println(newOptVal + " set!");
 			}
 		}
+	}
+	//a separate path with waits, just in case I forget to remove sleep() for the next lab.
+	public void waitUpdateOptionValue(String modelName, String optionName, String oldOptVal, String newOptVal) {
+		System.out.println ("Demonstrating Thread named " + Thread.currentThread().getName()
+				+ " and Setting " + oldOptVal +  " to " + newOptVal);
+		int setIndex;
+		_autoModel = _autoModelGroup.get(modelName);
+		if (_autoModel != null) {
+			setIndex = _autoModel.findOptionSetIndex(optionName);
+			if (setIndex != -1) {
+				if(_autoModel.updateOptionName2(setIndex, oldOptVal, newOptVal)) {
+					System.out.println(newOptVal + " set and updateOptionName2 exited.");
+				}
+					
+				else { 
+					System.out.println(newOptVal + " NOT set but updateOptionName2 exited."); 
+				}
+			} 
+		}
+		System.out.println (Thread.currentThread().getName() + " done.");
 	}
 	public void removeAuto (String modelName) {	
 		_autoModelGroup.remove(modelName);

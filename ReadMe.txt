@@ -1,32 +1,33 @@
-This is Kimberly Disher's Lab3. 
+This is Kimberly Disher's Lab4. 
 
 Output files - 
 test_output.txt (console/system.err output)
-fixedbroken_filename.txt (Model config file with saved error fixes)
  
 Input files -
 
 automobile.txt (config for a auto Model). 
 automobile2.txt (different config for an auto Model).
-broken_autombile.txt (Model config file with errors for Exception testing)
 
-Updated Classes for Lab 3
-ProxyAuto -- Updated to use a LinkedHashMap<Model> for a group of autos
-			 added addAuto, and updated removeAuto to handle Model instances in a LinkedHashMap.
+Added for Lab 4
+Lab 4 adds capabilities for threading and scaling. Method named updateOptionName2 includes a short wait 
+to make object locking more noticeable.
+Interface ScaleThread in package scale -- extends Runnable
+Class EditOptions in package scale -- extends ProxyAuto, implements ScaleThread to use threading
 
-Model -- now uses an ArrayList<OptionSet> for option sets instead of an array. Counters and 
-		 	methods dealing with the old array have been deleted (optionSetCount).
-		 added getters/setters for Option choice name and prices in OptionSet.
-		 Added getTotalPrice to add option choice prices to model price.
-		 Added toStringWChoices to print Model and show selected options.
-		 
-OptionSet -- now uses an ArrayList<Option> for options instead of an array. Counters and methods 
-				used in array housekeeping are gone (moveUpOptions).
-			added Option _optChoice and associated get/set methods.
-			toStringHelper modified to have an option of showing selected options.
+Updated Classes for Lab 4
+ProxyAuto -- added method waitUpdateOptionValue to call updateOptionName2 so that the synchronized methods can be demonstrated
+			on a human time scale without altering the non-demonstration path of operations in the class.
 
-The driver with main is located at src/tester/driver3.java. 
-The design diagram is Lab3Diagram.jpg
+Model -- added synchronized keyword to public methods that change data members in Model, Option and OptionSet.
+		 added method updateOptionName2 to add a sleep() and not change the operations of the original updateOptionName.
+
+The driver with main is located at src/tester/driver4.java. 
+The design diagram is Lab4Diagram.jpg
+
+---------
+
+Main Changes from Lab 3 - added a LinkedHashMap to handle a group of Model Object in ProxyAuto. Changed _optset in Model and 
+		_options in OptionSet to ArrayLists from simple arrays.
 
 Here are errors and codes added in Lab 2:
 

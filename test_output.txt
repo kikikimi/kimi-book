@@ -1,35 +1,7 @@
-Trying to load /Users/kimi/Documents/workspace/CIS35B/Lab2/automobile.txt
-First model
- Ford Focus Wagon ZTW Base Price: $15,999.00
-    Color
-    X   Fort Knox Gold Clearcoat Metallic, Price: $0.00
-        Liquid Grey Clearcoat Metallic, Price: $0.00
-        Infra-Red Clearcoat, Price: $0.00
-        Grabber Green Clearcoat Metallic, Price: $0.00
-        Sangria Red Clearcoat Metallic, Price: $0.00
-        French Blue Clearcoat Metallic, Price: $0.00
-        Twilight Blue Clearcoat Metallic, Price: $0.00
-        CD Silver Clearcoat Metallic, Price: $0.00
-        Pitch Black Clearcoat, Price: $0.00
-        Cloud 9 White Clearcoat, Price: $0.00
-    Transmission
-    X   Automatic, Price: $0.00
-        Standard, Price: ($815.00)
-    Brakes/Traction Control
-    X   Standard, Price: $0.00
-        ABS, Price: $400.00
-        ABS with Advance Trac, Price: $1,625.00
-    Side Impact Air Bags
-    X   None, Price: $0.00
-        Select, Price: $350.00
-    Power Moonroof
-    X   None, Price: $0.00
-        Select, Price: $595.00
+Trying to load D:\kimibook\automobile.txt
+Trying to load D:\kimibook\automobile2.txt
+6 Speed Manual set!
 
-Price with selected options(may be defaults):15999.0
-
-Trying to load /Users/kimi/Documents/workspace/CIS35B/Lab2/automobile2.txt
-Second model
  Ford Focus Sedan Base Price: $17,999.00
     Color
     X   Fort Knox Gold Clearcoat Metallic, Price: $0.00
@@ -44,7 +16,7 @@ Second model
         Cloud 9 White Clearcoat, Price: $0.00
     Transmission
     X   Automatic, Price: $0.00
-        Standard, Price: ($815.00)
+        6 Speed Manual, Price: ($815.00)
     Brakes/Traction Control
     X   Standard, Price: $0.00
         ABS, Price: $400.00
@@ -57,10 +29,16 @@ Second model
         Select, Price: $595.00
 
 Price with selected options(may be defaults):17999.0
+Demonstrating Thread named Thread-3 and Setting Standard to 5 Speed Manual
+Thread-3 in updateOptionName2
+Demonstrating Thread named Thread-2 and Setting Standard to 6 Speed Manual
+5 Speed Manual set and updateOptionName2 exited.
+Thread-3 done.
+Thread-2 in updateOptionName2
+6 Speed Manual NOT set but updateOptionName2 exited.
+Thread-2 done.
 
-Trying to load /Users/kimi/Documents/workspace/CIS35B/Lab2/automobile3.txt
-Second model
- Ford Avenger Wagon Base Price: $13,595.00
+ Ford Focus Wagon ZTW Base Price: $15,999.00
     Color
     X   Fort Knox Gold Clearcoat Metallic, Price: $0.00
         Liquid Grey Clearcoat Metallic, Price: $0.00
@@ -73,8 +51,8 @@ Second model
         Pitch Black Clearcoat, Price: $0.00
         Cloud 9 White Clearcoat, Price: $0.00
     Transmission
-    X   Automatic, Price: $500.00
-        Standard, Price: ($815.00)
+    X   Automatic, Price: $0.00
+        5 Speed Manual, Price: ($815.00)
     Brakes/Traction Control
     X   Standard, Price: $0.00
         ABS, Price: $400.00
@@ -86,4 +64,4 @@ Second model
     X   None, Price: $0.00
         Select, Price: $595.00
 
-Price with selected options(may be defaults):14095.0
+Price with selected options(may be defaults):15999.0

@@ -44,7 +44,7 @@ public class Model implements Serializable{
 	
 	public double getModelPrice() {return _price;}
 	
-    public String getOptionChoice (String setName) {
+    public synchronized String getOptionChoice (String setName) {
     	int index = findOptionSetIndex(setName);
     	if (index > -1) {
     		return _optset.get(index).getOptionChoice().getOptValue();
@@ -105,7 +105,9 @@ public class Model implements Serializable{
     		return this._optset.get(optSetIndex).getOptionValue(optIndex);
     	else return null;
     }
-    public double getTotalPrice () { //uses prices of chosen options --OptionChoice
+    //uses prices of chosen options --OptionChoice. 
+    //  synchronized because this one takes long enough that accessed values may have changed during its operations
+    public synchronized double getTotalPrice () { 
 		double price = 0.0;
 		ListIterator<OptionSet> optIterator = _optset.listIterator();
 		price += this._price;
@@ -114,20 +116,20 @@ public class Model implements Serializable{
 		}
 		return price;
 	}
-	public void setDefaultOptionChoices ()
+	public synchronized void setDefaultOptionChoices ()
 	{
 		int i = 0;
 		while (i < _optset.size()) {
 			_optset.get(i++).setDefaultOptionChoice();
 		}
 	}
-	public void setModelName(String name) {this._modelName = name;}
+	public synchronized void setModelName(String name) {this._modelName = name;}
 	
-	public void setMakerName(String name) {this._makerName = name;}
+	public synchronized void setMakerName(String name) {this._makerName = name;}
 	
-	public void setModelPrice(double price) {this._price = price;}
+	public synchronized void setModelPrice(double price) {this._price = price;}
 	
-	public boolean setOptionChoice (String setName, String optName) {
+	public synchronized boolean setOptionChoice (String setName, String optName) {
 		boolean choiceSet = false;
 		int setIndex = this.findOptionSetIndex(setName);
 		int optIndex;
@@ -142,33 +144,33 @@ public class Model implements Serializable{
 		}
 		return choiceSet;
 	}
-	public void setOptionSet(OptionSet[] optset) {
+	public synchronized void setOptionSet(OptionSet[] optset) {
 		for (OptionSet subOptSet : optset) {
 			this._optset.add(subOptSet);
 		}
 	}
-	public boolean addOptionSet(String setName, OptionSet.Option [] opts){
+	public synchronized boolean addOptionSet(String setName, OptionSet.Option [] opts){
 		if (addOptionSet(setName, opts.length)){
 			this._optset.get(_optset.size() - 1).setOptions(opts);
 			return true;
 		}
 		else return false;
 	}
-	public boolean addOptionSet(String setName, int setSize) {return _optset.add(new OptionSet(setSize, setName));}
+	public synchronized boolean addOptionSet(String setName, int setSize) {return _optset.add(new OptionSet(setSize, setName));}
 	
-	public boolean addOptionToSet(String setName, String optVal, double optPrice){
+	public synchronized boolean addOptionToSet(String setName, String optVal, double optPrice){
 		int setIndex = findOptionSetIndex(setName);
 		return this.addOptionToSet(setIndex, optVal, optPrice);
 	}
-	public boolean addOptionToSet(int setIndex, String optVal, double optPrice){
+	public synchronized boolean addOptionToSet(int setIndex, String optVal, double optPrice){
 		if (setIndex > -1 && setIndex < this._optset.size())
 			return this._optset.get(setIndex).addOption(optVal, optPrice);
 		else return false;
 	}
-	public boolean addOptionToLastSet (String optVal, double optPrice){
+	public synchronized boolean addOptionToLastSet (String optVal, double optPrice){
 		return this.addOptionToSet(this._optset.size() - 1, optVal, optPrice);
 	}
-	public boolean updateOptionSetName (int setIndex, String setName) {
+	public synchronized boolean updateOptionSetName (int setIndex, String setName) {
 		boolean updated = false;
 		if (setIndex > -1 && setIndex < this._optset.size()) {
 			this._optset.get(setIndex).setOptName(setName);
@@ -178,20 +180,30 @@ public class Model implements Serializable{
 	}
 	//updating option price and option value/name separately. I suspect the price will be the one updated more often,
 	//and this leaves less chance of messing up both when we want to only change one.
-	public boolean updateOptionPrice(int setIndex, String optName, double optPrice) {
+	public synchronized boolean updateOptionPrice(int setIndex, String optName, double optPrice) {
 		return this._optset.get(setIndex).updateOptionPrice(optName, optPrice);
 	}
-	public boolean updateOptionName(int setIndex, String optName, String newOptName) {
+	public synchronized boolean updateOptionName(int setIndex, String optName, String newOptName) {
 		return this._optset.get(setIndex).updateOptionValue(optName, newOptName);
 	}
-	public boolean deleteOptionSet (int setIndex) {
+	public synchronized boolean updateOptionName2(int setIndex, String optName, String newOptName) {
+		System.out.println (Thread.currentThread().getName() + " in updateOptionName2");
+		try{
+			Thread.sleep(2000);
+		}
+		catch (InterruptedException e){
+			System.err.println("Error: " + e.getMessage());
+		}
+		return this._optset.get(setIndex).updateOptionValue(optName, newOptName);
+	}
+	public synchronized boolean deleteOptionSet (int setIndex) {
 		boolean deleted = false;
 		if (setIndex > -1 && setIndex < this._optset.size()) {
 			this._optset.remove(setIndex);
 		}
 		return deleted;
 	}
-	public boolean deleteOption(int setIndex, String optValue){
+	public synchronized boolean deleteOption(int setIndex, String optValue){
 		int optIndex;
 		boolean deleted = false;
 		if (setIndex > -1 && setIndex < this._optset.size()) {
@@ -202,7 +214,7 @@ public class Model implements Serializable{
 		}
 		return deleted;
 	}
-	public boolean deleteOption(String setName, String optValue){
+	public synchronized boolean deleteOption(String setName, String optValue){
 		int setIndex = findOptionSetIndex(setName);
 		return this.deleteOption(setIndex, optValue);
 	}
