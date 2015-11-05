@@ -1,6 +1,6 @@
 /* Kimberly Disher
  * CIS 35B
- * Updated for Lab 3
+ * Updated for Lab 4
  */
 package automobile;
 
@@ -186,6 +186,7 @@ public class Model implements Serializable{
 	public synchronized boolean updateOptionName(int setIndex, String optName, String newOptName) {
 		return this._optset.get(setIndex).updateOptionValue(optName, newOptName);
 	}
+	//added a sleep here to demonstrate locking
 	public synchronized boolean updateOptionName2(int setIndex, String optName, String newOptName) {
 		System.out.println (Thread.currentThread().getName() + " in updateOptionName2");
 		try{

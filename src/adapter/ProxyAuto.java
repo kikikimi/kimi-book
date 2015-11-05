@@ -1,6 +1,6 @@
 /* Kimberly Disher
  * CIS 35B
- * Updated for Lab 3
+ * Updated for Lab 4
  */
 package adapter;
 

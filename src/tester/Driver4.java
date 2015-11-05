@@ -1,3 +1,7 @@
+/*	Kimberly Disher	
+ *  CIS 35B
+ *  Driver for Lab4
+ */
 package tester;
 
 import adapter.*;
