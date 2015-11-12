@@ -1,8 +1,9 @@
 /*Kimberly Disher
- * CIS 35B, Lab 2
+ * CIS 35B
+ * Updated for Lab 5
  */
 package adapter;
 
 public class ModelBuilder extends ProxyAuto 
-implements CanCreateModel, CanUpdateModel, CanFixModel {
+implements CanCreateModel, CanUpdateModel, CanFixModel, CanServeAuto {
 }

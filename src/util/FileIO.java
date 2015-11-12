@@ -1,16 +1,34 @@
 /* Kimberly Disher
- * CIS 35B Lab 1
+ * CIS 35B
+ * Updated for Lab 5
  */
 package util;
 
 import java.io.*;
-
+import java.util.*;
 import automobile.*;
 import exception.*;
 
 public class FileIO {
 	public FileIO() {}
-	
+	public Model buildAutoModelFromProperties(String fileName, Model automodel) {
+		Properties autoProps = new Properties();
+		FileInputStream autoIn = null;
+		try {
+			autoIn = new FileInputStream(fileName);
+		}
+		catch(FileNotFoundException e) {
+			System.err.println("Properties file not found!");
+		}
+		try{
+			autoProps.load(autoIn);
+		}
+		catch(IOException e){
+			System.err.println("Error reading Properties input stream!");
+		}
+		parseProperties(autoProps, automodel);
+		return automodel;
+	}
 	public Model buildAutoModelObject(String fileName, Model automodel) throws AutoException {
 		boolean endFile = false;
 		boolean autoExCalled = false;
@@ -67,6 +85,47 @@ public class FileIO {
 	//default deserialize to "automodel.ser"
 	public Model deserializeAutoModelObject(Model automodel) {return deserializeAutoModelObject("automodel.ser", automodel);}
 	
+	public void parseProperties (Properties autoProp, Model automodel) {
+		String propName;
+		String propVal;
+		String optVal;
+		double optPrice;
+		int setcount = 1;
+		int optcount;
+		boolean hasSubs; //has option values left to go
+		
+		propVal = autoProp.getProperty("CarMake");
+		if (!propVal.equals(null))	
+			automodel.setMakerName(propVal);
+		propVal = autoProp.getProperty("CarModel");
+		if (!propVal.equals(null))	
+			automodel.setModelName(propVal);
+		propVal = autoProp.getProperty("CarPrice");
+		if (!propVal.equals(null))	
+			automodel.setModelPrice(Double.parseDouble(propVal));
+		
+		do {
+			propName = "Option" + setcount;
+			propVal = autoProp.getProperty(propName);
+			if (!propVal.equals(null)) {
+				automodel.addOptionSet(propVal, 2);
+				hasSubs = true;
+				optcount = 0;
+				while(hasSubs) {
+					propName = "OptionValue" + setcount + (char)('a' + optcount);
+					optVal= autoProp.getProperty(propName);
+					if (!optVal.equals(null)) {
+						propName = "OptionPrice" + setcount + (char)('a' + optcount);
+						optPrice = Double.parseDouble(autoProp.getProperty(propName));
+						automodel.addOptionToLastSet(optVal, optPrice);
+						optcount ++;
+					}
+					else hasSubs = false;
+				}
+			}
+			setcount ++;
+		}while (!propVal.equals(null));
+	}
 	public void parseLine(Model automodel, String line) throws AutoException {
 		String [] splitLine = line.split(",");
 		trimWhiteSpaceInArray(splitLine);
