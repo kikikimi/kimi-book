@@ -10,8 +10,8 @@ import scale.*;
 public class Driver4 {
 	public static void main(String[] args) {
 		CanCreateModel car1 = new ModelBuilder();
-		car1.buildAuto("automobile.txt");
-		car1.buildAuto("automobile2.txt");
+		car1.buildAuto("automobile.txt", "text");
+		car1.buildAuto("automobile2.txt", "text");
 		testThreads ();
 		System.out.println();
 		car1.printAuto("Ford Focus Sedan");

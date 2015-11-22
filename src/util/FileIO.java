@@ -1,6 +1,6 @@
 /* Kimberly Disher
  * CIS 35B
- * Updated for Lab 5
+ * Updated for Lab 5, added fileExists()
  */
 package util;
 
@@ -11,7 +11,7 @@ import exception.*;
 
 public class FileIO {
 	public FileIO() {}
-	public Model buildAutoModelFromProperties(String fileName, Model automodel) {
+	public Model buildAutoModelFromProperties(String fileName, Model automodel) throws AutoException{
 		Properties autoProps = new Properties();
 		FileInputStream autoIn = null;
 		try {
@@ -78,53 +78,59 @@ public class FileIO {
 			return automodel;
 		}
 		catch (Exception e){
-			System.out.println("Error writing Serialized objects: " + e.getMessage());
+			System.out.println("Error reading Serialized objects: " + e.getMessage());
 			return null;
 		}
 	}
 	//default deserialize to "automodel.ser"
 	public Model deserializeAutoModelObject(Model automodel) {return deserializeAutoModelObject("automodel.ser", automodel);}
 	
-	public void parseProperties (Properties autoProp, Model automodel) {
-		String propName;
+	public void parseProperties (Properties autoProp, Model automodel) throws AutoException{
+		String propName = "";
 		String propVal;
 		String optVal;
 		double optPrice;
 		int setcount = 1;
 		int optcount;
 		boolean hasSubs; //has option values left to go
-		
+
 		propVal = autoProp.getProperty("CarMake");
-		if (!propVal.equals(null))	
+		if (propVal != null)	
 			automodel.setMakerName(propVal);
+		else throw new AutoException (102065, "CarMake not found.");
 		propVal = autoProp.getProperty("CarModel");
-		if (!propVal.equals(null))	
+		if (propVal != null)
 			automodel.setModelName(propVal);
+		else throw new AutoException (102065, "CarModel not found.");
 		propVal = autoProp.getProperty("CarPrice");
-		if (!propVal.equals(null))	
+		if (propVal != null)	
 			automodel.setModelPrice(Double.parseDouble(propVal));
+		else throw new AutoException (102065, "CarPrice not found.");
 		
 		do {
 			propName = "Option" + setcount;
 			propVal = autoProp.getProperty(propName);
-			if (!propVal.equals(null)) {
+			if (propVal != null) {
 				automodel.addOptionSet(propVal, 2);
 				hasSubs = true;
 				optcount = 0;
 				while(hasSubs) {
 					propName = "OptionValue" + setcount + (char)('a' + optcount);
 					optVal= autoProp.getProperty(propName);
-					if (!optVal.equals(null)) {
+					if (optVal!= null) {
 						propName = "OptionPrice" + setcount + (char)('a' + optcount);
-						optPrice = Double.parseDouble(autoProp.getProperty(propName));
-						automodel.addOptionToLastSet(optVal, optPrice);
+						if (autoProp.getProperty(propName) != null) {
+							optPrice = Double.parseDouble(autoProp.getProperty(propName));
+							automodel.addOptionToLastSet(optVal, optPrice);
+						}
+						else throw new AutoException (102065, propName + " not found.");
 						optcount ++;
 					}
 					else hasSubs = false;
 				}
 			}
 			setcount ++;
-		}while (!propVal.equals(null));
+		}while (propVal != null);
 	}
 	public void parseLine(Model automodel, String line) throws AutoException {
 		String [] splitLine = line.split(",");
@@ -243,5 +249,17 @@ public class FileIO {
 		sb.delete(sb.length() -2, sb.length());
 		sb.append("\n");
 		return sb.toString();
+	}
+	public static boolean fileExists(String fileName) {
+		File file = new File(fileName);
+		return file.exists();
+	}
+	public static boolean checkExtension(String fileName, String ext) {
+		String [] strTempSplit  = fileName.split("\\.");
+		boolean extMatch = false; //extension match
+		if  (strTempSplit.length > 0 && strTempSplit[strTempSplit.length - 1].equalsIgnoreCase(ext)) {
+			extMatch = true;
+		}
+		return extMatch;
 	}
 }

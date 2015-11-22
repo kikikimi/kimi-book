@@ -14,7 +14,7 @@ public class Driver2 {
 	private static void testApi (){
 		//load values into model and print
 		CanCreateModel car1 = new ModelBuilder();
-		car1.buildAuto("automobile.txt");
+		car1.buildAuto("automobile.txt", "text");
 		System.out.println("Loaded by buildAuto and printed by printAuto:");
 		car1.printAuto("Ford Focus Wagon ZTW");
 		System.out.println();
@@ -32,10 +32,10 @@ public class Driver2 {
 	private static void testErrorHandling ()
 	{
 		CanCreateModel car1 = new ModelBuilder();
-		car1.buildAuto("anautomobile.txt");			//file that doesn't exist. Error handling looks for a default file instead
+		car1.buildAuto("anautomobile.txt", "text");			//file that doesn't exist. Error handling looks for a default file instead
 		System.out.println("Done."); 
 		car1.removeAuto("Ford Focus Wagon ZTW");
-		car1.buildAuto("broken_automobile.txt");	//file that has missing line elements
+		car1.buildAuto("broken_automobile.txt", "text");	//file that has missing line elements
 		System.out.println("Loaded Model info for broken_automobile.txt");
 		car1.printAuto("Ford Focus Wagon ZTW");
 		

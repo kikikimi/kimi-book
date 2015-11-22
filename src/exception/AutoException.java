@@ -1,3 +1,7 @@
+/*Kimberly Disher
+ * CIS 35B
+ * Added a error code for dealing with missing property file elements in lab 5
+ */
 package exception;
 
 public class AutoException extends Exception{
@@ -36,6 +40,8 @@ public class AutoException extends Exception{
 			case 102063 : 	message.append("Number not present or is not an integer. Line: ");	
 				break;
 			case 102064 :	message.append("Model name not found. Line: ");
+				break;
+			case 102065 :	message.append("Element missing in propterties file");
 				break;
 		}
 		message.append(_info);

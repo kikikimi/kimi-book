@@ -1,6 +1,6 @@
 /* Kimberly Disher
  * CIS 35B
- * Updated for Lab 4
+ * Updated for Lab 5, altered toStringWChoices() to print all options or only chosen option
  */
 package automobile;
 
@@ -105,6 +105,16 @@ public class Model implements Serializable{
     		return this._optset.get(optSetIndex).getOptionValue(optIndex);
     	else return null;
     }
+    public String getOptionValue(String optSetName, int optIndex) {
+    	int setIndex = findOptionSetIndex (optSetName);
+    	return this.getOptionValue(setIndex, optIndex);
+    }
+    public ArrayList<String> getAllOptSetNames () {
+    	ArrayList<String> setNames = new ArrayList<String> ();
+    	for (OptionSet opt : _optset)
+    		setNames.add(opt.getOptName());
+    	return setNames;
+    }
     //uses prices of chosen options --OptionChoice. 
     //  synchronized because this one takes long enough that accessed values may have changed during its operations
     public synchronized double getTotalPrice () { 
@@ -139,6 +149,18 @@ public class Model implements Serializable{
 			optIndex = tempOptSet.findOptionIndexByValue(optName);
 			if (optIndex > -1) {
 				tempOptSet.setOptionChoice(optName);
+				choiceSet = true;
+			}
+		}
+		return choiceSet;
+	}
+	public synchronized boolean setOptionChoice (int setIndex, int optIndex) {
+		boolean choiceSet = false;
+		OptionSet tempOptSet;
+		if (setIndex > -1) {
+			tempOptSet = this._optset.get(setIndex);
+			if (optIndex > -1) {
+				tempOptSet.setOptionChoice(optIndex);
 				choiceSet = true;
 			}
 		}
@@ -237,8 +259,9 @@ public class Model implements Serializable{
 		}
         return sb.toString();
 	}
-	//sends true to OptionSet.toStringHelper to print an "X" next to a selected option. Otherwise, just a toString().
-	public String toStringWChoices(){
+	//sends true to OptionSet.toStringHelper to print an "X" next to a selected option, when allOptions is true.
+	//otherwise, only prints selected options and total price.
+	public String toStringWChoices(boolean allOptions){
 		ListIterator<OptionSet> osIterator = _optset.listIterator();
 		OptionSet oSet;
 		StringBuilder sb = new StringBuilder(this._makerName);
@@ -252,7 +275,15 @@ public class Model implements Serializable{
 		while (osIterator.hasNext()) {
 			oSet = osIterator.next();
 			sb.append("    ");		//using spaces, since tab sizes vary by system
-			sb.append(oSet.toStringHelper(true));
+			if (allOptions)
+				sb.append(oSet.toStringHelper(true));
+			else sb.append(oSet.toStringChoices());
+		}
+		if (!allOptions){
+			sb.append("Total Price: ");
+			sb.append(NumberFormat
+                    .getCurrencyInstance(new Locale("en", "US"))
+                    .format(this.getTotalPrice()));
 		}
         return sb.toString();
 	}

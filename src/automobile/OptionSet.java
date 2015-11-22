@@ -59,6 +59,9 @@ class OptionSet implements Serializable{
 	protected void setOptionChoice(String optValue) {
 		_optChoice = _options.get(this.findOptionIndexByValue(optValue));
 	}
+	protected void setOptionChoice(int optIndex) {
+		_optChoice = _options.get(optIndex);
+	}
 	protected boolean addOption (String optValue, double optPrice){
 		return _options.add(new Option(optValue, optPrice));
 	}
@@ -117,7 +120,15 @@ class OptionSet implements Serializable{
 			sb.append("\n");
 		}
         return sb.toString();
-	}   
+	} 
+	protected String toStringChoices () {
+		StringBuilder sb = new StringBuilder (_optName);
+		sb.append (": ");
+		sb.append(this._optChoice.toStringHelper());
+		sb.append("\n");
+		return sb.toString();
+		
+	}
 	protected class Option implements Serializable {
 		private String _optValue;
 		private double _optPrice;

@@ -1,32 +1,39 @@
-This is Kimberly Disher's Lab4. 
+This is Kimberly Disher's Lab5. 
 
 Output files - 
-test_output.txt (console/system.err output)
+test_output.txt (server and client console output)
  
 Input files -
-
+Used when starting a Server:
 automobile.txt (config for a auto Model). 
 automobile2.txt (different config for an auto Model).
 
-Added for Lab 4
-Lab 4 adds capabilities for threading and scaling. Method named updateOptionName2 includes a short wait 
-to make object locking more noticeable.
-Interface ScaleThread in package scale -- extends Runnable
-Class EditOptions in package scale -- extends ProxyAuto, implements ScaleThread to use threading
+Used for uploading from a Client:
+automobile.properties
+auto2.properties
 
-Updated Classes for Lab 4
-ProxyAuto -- added method waitUpdateOptionValue to call updateOptionName2 so that the synchronized methods can be demonstrated
-			on a human time scale without altering the non-demonstration path of operations in the class.
+Added for Lab 5
+Lab 5 adds client/server capabilities in new packages "client" and "server." 
+The CarModelOptionsIO class in client can upload a properties file, 
+and receive an Model object to configure and then display.
+The ModelServer class in server can receive and interpret some commands,  
+send a Model object over a socket connection and 
+receive a properties object over a connection.
 
-Model -- added synchronized keyword to public methods that change data members in Model, Option and OptionSet.
-		 added method updateOptionName2 to add a sleep() and not change the operations of the original updateOptionName.
+Updates for Lab 5
 
-The driver with main is located at src/tester/driver4.java. 
-The design diagram is Lab4Diagram.jpg
+The FileIO class includes a new method, parseProperties(). 
+ProxyAuto and the CanCreateModel interface call it via a new buildAuto();
+Model's toStringWChoices() now supports printing only the option choice per each option set.
+
+The "drivers" with main is located at src/client/CarModelOptionsIO.java and
+	src/server/ModelServer.java. 
+The design diagram is Lab5Diagram.jpg
 
 ---------
 
-Main Changes from Lab 3 - added a LinkedHashMap to handle a group of Model Object in ProxyAuto. Changed _optset in Model and 
+Main changes from Lab 4 -demonstrates capabilities for threading and scaling, data changing methods in Model are synchronized.
+Main changes from Lab 3 - added a LinkedHashMap to handle a group of Model Object in ProxyAuto. Changed _optset in Model and 
 		_options in OptionSet to ArrayLists from simple arrays.
 
 Here are errors and codes added in Lab 2:
