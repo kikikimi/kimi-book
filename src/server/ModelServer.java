@@ -1,3 +1,8 @@
+/* Kimberly Disher
+ * CIS 35B
+ * Lab 5
+ * Parts of this class come from course materials, Networking.ppt, pg 43.
+ */
 package server;
 
 import java.io.*;
@@ -5,7 +10,7 @@ import java.util.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ModelServer extends Thread implements client.SocketClientConstants{ //not the best name, just didn't want to call yet another thing "Server"
+public class ModelServer extends Thread implements client.SocketClientConstants, client.SocketClientInterface{ //not the best name, just didn't want to call yet another thing "Server"
 	private ServerSocket svrSock;
 	private Socket insock;
 	private ObjectInputStream objectIn;
@@ -28,7 +33,7 @@ public class ModelServer extends Thread implements client.SocketClientConstants{
 			System.out.println (names.get(i));
 		}
 	}
-	public boolean openSession() {
+	public boolean openConnection() {
 		boolean opened = true;
 		try { objectIn = new ObjectInputStream(insock.getInputStream());}
 		catch (IOException ioe) { 
@@ -97,7 +102,7 @@ public class ModelServer extends Thread implements client.SocketClientConstants{
 			while (true) {
 				insock = svrSock.accept();
 				if (DEBUG) { System.out.println ("Accepted a connection from " + insock.getInetAddress()); }
-				if (openSession ()) {
+				if (openConnection ()) {
 					handleSession ();
 				}
 				try{ sleep(1000); }

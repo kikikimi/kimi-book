@@ -1,7 +1,7 @@
 /* Kimberly Disher
  * CIS 35B
  * New for Lab 5
- * Parts of this class come from class materials, Networking.ppt, pg 43.
+ * Parts of this class come from course materials, Networking.ppt, pg 43.
  */
 package client;
 

@@ -16,7 +16,8 @@ Added for Lab 5
 Lab 5 adds client/server capabilities in new packages "client" and "server." 
 The CarModelOptionsIO class in client can upload a properties file, 
 and receive an Model object to configure and then display.
-The ModelServer class in server can receive and interpret some commands,  
+The ModelServer class in server can receive and interpret some predefined commands
+	(UPLOAD, CONFIGURE, QUIT),  
 send a Model object over a socket connection and 
 receive a properties object over a connection.
 
